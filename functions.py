@@ -61,7 +61,7 @@ def getRecFromPol(magnitud, angulo):
 ##Entradas
 #voltaje: voltaje entre dos puntos Vab, Vbc, Vca... en formato rectangular
 #secuencia 
-def getVFaseDelta(voltaje, secuencia, vin, vout):
+"""def getVFaseDelta(voltaje, secuencia, vin, vout):
 	if(isRecComplex(voltaje)):
 		value = None
 		if(secuencia == "+"):
@@ -73,73 +73,129 @@ def getVFaseDelta(voltaje, secuencia, vin, vout):
 			
 		elif(vin == "BC"):
 
-		elif(vin == "AC"):
+		elif(vin == "AC"):"""
 
 
 class FuenteDelta(object):
-
 	def __init__(self, Van = None , Vbn = None, Vcn = None, Vab = None, Vbc = None, Vca = None, secuencia = "ABC"):
 		self.Van = Van
 		self.Vbn = Vbn
 		self.Vcn = Vcn
-		self.Vab = Van
+		self.Vab = Vab
 		self.Vbc = Vbc
 		self.Vca = Vca
 		self.secuencia = secuencia
 
-		#Datos iniciales
+		def calcularAnguloVoltajes(v, operacion, valor):
+			angulo = getPolFromRec(v)
+			angulo = angulo[1]
+			magnitud = getPolFromRec(v)
+			magnitud = magnitud[0]
+			if(operacion == "+"):
+				angulo += valor
+			elif(operacion == "-"):
+				angulo -= valor
+			return getRecFromPol(magnitud, angulo)
+
+		def calcularVFases(v, secuencia):
+			if(secuencia == "ABC"):
+				cte = getRecFromPol(math.sqrt(3), 30)
+			elif(secuencia == "ACB"):
+				cte = getRecFromPol(math.sqrt(3), -30)
+			res = v/cte
+			return res
+		#Calculando voltajes a partir de datos iniciales
 		#Si tenemos Vab
-		if(Vab != None):
+		if(self.Vab != None):
 			#Si la secuencia es positiva
-			if(secuencia == "ABC"):
-				if(Vbc == None):
+			if(self.secuencia == "ABC"):
+				#Calculando voltajes de linea
+				if(self.Vbc == None):
 					#Vbc = #mismo voltaje angulo menos 120
-				if(Vca == None):
+					self.Vbc = calcularAnguloVoltajes(self.Vab, "-", 120)
+				if(self.Vca == None):
 					#Vca = #mismo voltaje angulo mas 120
+					self.Vca = calcularAnguloVoltajes(self.Vab, "+", 120)
+
 			#Secuencia negativa
-			if(secuencia == "ACB"):
-				if(Vbc == None):
+			if(self.secuencia == "ACB"):
+				#Calculando voltajes de linea
+				if(self.Vbc == None):
 					#Vbc = #mismo voltaje angulo mas 120
-				if(Vca == None):
+					self.Vbc = calcularAnguloVoltajes(self.Vab, "+", 120)
+				if(self.Vca == None):
 					#Vca = #mismo voltaje angulo menos 120
+					self.Vca = calcularAnguloVoltajes(self.Vab, "-", 120)
 		
+
 		#Si tenemos Vbc
-		if(Vbc != None):
+		if(self.Vbc != None):
 			#Si la secuencia es positiva
-			if(secuencia == "ABC"):
-				if(Vab == None):
+			if(self.secuencia == "ABC"):
+				#Calculando voltajes de linea
+				if(self.Vab == None):
 					#Vab = #mismo voltaje angulo mas 120
-				if(Vca == None):
+					self.Vab = calcularAnguloVoltajes(self.Vbc, "+", 120)
+				if(self.Vca == None):
 					#Vca = #mismo voltaje angulo mas 240
+					self.Vca = calcularAnguloVoltajes(self.Vbc, "+", 240)
+
 			#Secuencia negativa
-			if(secuencia == "ACB"):
-				if(Vab == None):
-					#Vbc = #mismo voltaje angulo menos 120
-				if(Vca == None):
+			if(self.secuencia == "ACB"):
+				#Calculando voltajes de linea
+				if(self.Vab == None):
+					#Vab = #mismo voltaje angulo menos 120
+					self.Vab = calcularAnguloVoltajes(self.Vbc, "-", 120)
+				if(self.Vca == None):
 					#Vca = #mismo voltaje angulo menos 240
+					self.Vca = calcularAnguloVoltajes(self.Vbc, "-", 240)
+
 
 		#Si tenemos Vca
-		if(Vca != None):
+		if(self.Vca != None):
 			#Si la secuencia es positiva
-			if(secuencia == "ABC"):
-				if(Vab == None):
+			if(self.secuencia == "ABC"):
+				#Calculando voltajes de linea
+				if(self.Vab == None):
 					#Vab = #mismo voltaje angulo menos 120
-				if(Vbc == None):
+					self.Vab = calcularAnguloVoltajes(self.Vca, "-", 120)
+				if(self.Vbc == None):
 					#Vbc = #mismo voltaje angulo menos 240
+					self.Vbc = calcularAnguloVoltajes(self.Vca, "-", 240)
+
 			#Secuencia negativa
-			if(secuencia == "ACB"):
-				if(Vab == None):
+			if(self.secuencia == "ACB"):
+				#Calculando voltajes de linea
+				if(self.Vab == None):
 					#Vab = #mismo voltaje angulo mas 120
-				if(Vbc == None):
+					self.Vab = calcularAnguloVoltajes(self.Vca, "+", 120)
+				if(self.Vbc == None):
 					#Vbc = #mismo voltaje angulo mas 240
+					self.Vbc = calcularAnguloVoltajes(self.Vca, "+", 240)
 
-		def getVLinea(vConocido, vDesconocido, secuencia):
-			vDeLineas = ["Vab", "Vbc", "Vca"]
-			if(vConocido != None):
-				if(secuencia == "ABC"):
-					
-				if(secuencia == "ACB"):
+		#Calculando voltajes de fase
+		if(self.Van == None):
+			#Van = Vab/sqrt(3)<30 
+			self.Van = calcularVFases(self.Vab, self.secuencia)
+		if(self.Vbn == None):
+			#Vbn = Vbc/sqrt(3)<30
+			self.Vbn = calcularVFases(self.Vbc, self.secuencia)
+		if(self.Vcn == None):
+			#Vcn = Vca/sqrt(3)<30
+			self.Vcn = calcularVFases(self.Vca, self.secuencia)
 
 
-
+	#getters
+	def getVab(self):
+		return self.Vab
+	def getVbc(self):
+		return self.Vbc
+	def getVca(self):
+		return self.Vca
+	def getVan(self):
+		return self.Van
+	def getVbn(self):
+		return self.Vbn
+	def getVcn(self):
+		return self.Vcn
 
