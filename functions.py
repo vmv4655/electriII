@@ -270,7 +270,6 @@ class Fuente(object):
 	def getVcn(self):
 		return self.Vcn
 
-
 class FuenteDelta(Fuente):
 	pass
 
@@ -289,10 +288,11 @@ class CargaMonofasica(object):
 	P       = None
 	Q  		= None
 	S 		= None
+class CargaTrifasica(object):
+	Zab = None
+	Zbc = None
+	Zca = None
 
-
-class Carga(object):
-	pass
 class CargaDelta(Carga):
 	pass
 class CargaEstrella(Carga):
