@@ -41,7 +41,7 @@ def getPolFromRec(complexNumber):
 		angle = radToDeg(polar[1]);
 		return (polar[0], angle) 
 	else:
-		return False; 
+		return False
 
 
 #retorna un numero rectangular de uno polar
@@ -51,6 +51,14 @@ def getRecFromPol(magnitud, angulo):
 		radianes = degToRad(angulo)
 		return cmath.rect(magnitud, radianes)
 	else:
+		return False
+
+#Convierte Hp a Watts
+def HpToWatts (hp):
+	if( isFloatOrInt(hp)):
+		W = hp*746
+		return W
+	else: 
 		return False
 
 #Clase padre para modelar tanto la fuente delta como la estrella
@@ -284,10 +292,10 @@ class CargaMonofasica(object):
 
 
 class Carga(object):
-
+	pass
 class CargaDelta(Carga):
-
+	pass
 class CargaEstrella(Carga):
-
+	pass
 class Conductor(object):
-	
+	pass
