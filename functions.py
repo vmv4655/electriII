@@ -299,3 +299,5 @@ class CargaEstrella(Carga):
 	pass
 class Conductor(object):
 	pass
+
+	print ("hola")
