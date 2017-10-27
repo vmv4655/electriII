@@ -1,12 +1,50 @@
 <CustomButton@Button>:
-	font_size: 35
-	size : 30, 80
+	spacing: 10
+	font_size: 32
+	size_hint: None, None
+	size: 130, 50
 
-<CustomPopUp>
-	size_hint: .5, .5
+<CustomPopup@Popup>
+	id: customPopup
 	auto_dismiss: False
-	title: "Seleccione el tipo de fuente"
+	size_hint: None, None
+	size: 400, 300
+	pos_hint: {"center_x":.5,"center_y":.5}
 
+	GridLayout:
+		rows: 2
+		padding: 10
+		spacing: 10
+
+		BoxLayout:
+			display: popupContent
+		BoxLayout:
+			display: popupControl
+
+<SelecFuente@CustomPopup>
+	title: "Seleccione el tipo de fuente"
+	GridLayout:
+		rows: 2
+		id: popupContent
+		Button:
+			text: "Estrella"
+			font_size: 32
+			size_hint: None, None
+			size: 150, 100
+			pos: root.x, root.y
+	
+		Button:
+			text: "Delta"
+			font_size: 32
+			size_hint: None, None
+			size: 150, 100
+			
 	CustomButton:
-		text: "Estrella"
-		on_press: root.dismiss()
+		id: popupControl
+		text: "Salir"
+
+
+<AppLayout>:
+	id: app
+	SelecFuente
+	
