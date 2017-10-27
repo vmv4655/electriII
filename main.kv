@@ -1,17 +1,12 @@
 <CustomButton@Button>:
 	font_size: 35
-
-
+	size : 30, 80
 
 <CustomPopUp>
 	size_hint: .5, .5
 	auto_dismiss: False
 	title: "Seleccione el tipo de fuente"
 
-	Button:
-		text: "Close"
+	CustomButton:
+		text: "Estrella"
 		on_press: root.dismiss()
-
-<mainApp>
-	Label:
-		text: "Hey maes, aun hay que trabajar en esto :D"

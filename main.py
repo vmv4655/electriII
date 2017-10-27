@@ -4,8 +4,11 @@ from kivy.app import App
 from kivy.uix.button import Label
 from kivy.uix.popup import Popup
 from kivy.core.window import Window
+from kivy.uix.boxlayout import BoxLayout
 
 class CustomPopUp(Popup):
+	pass
+class MainBoxLayout(BoxLayout):
 	pass
 		
 class Functions(object):
@@ -21,8 +24,9 @@ class mainApp(App):
 		Window.clearcolor = (.4, .4, .4, 1)
 		functions = Functions()
 		functions.selectTipoDeFuente()
-		return Label()
+		mainBoxLayout = MainBoxLayout()
+		return BoxLayout()
 
-application = mainApp()
-application.run()
+if __name__ == '__main__':
+    mainApp().run()
 		

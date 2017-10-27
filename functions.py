@@ -283,19 +283,34 @@ class CargaMonofasica(object):
 	I       = None
 	V       = None
 	Z		= None
-	FP 		= None
-	angulo 	= None
-	P       = None
-	Q  		= None
+	fp 		= None
 	S 		= None
+
 class CargaTrifasica(object):
+	Vab = None
+	Vbc = None
+	Vca = None
+	Van = None
+	Vbn = None
+	Vcn = None
+	Iab = None
+	Ibc = None
+	Ica = None
+	Ian = None
+	Ibn = None
+	Icn = None
+	S   = None
+	fp  = None
+
+class CargaDelta(Carga):
 	Zab = None
 	Zbc = None
 	Zca = None
 
-class CargaDelta(Carga):
-	pass
+
 class CargaEstrella(Carga):
-	pass
+	Zan = None
+	Zbn = None
+	Zcn = None
 class Conductor(object):
 	pass
