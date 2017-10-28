@@ -1,5 +1,9 @@
 import cmath, math
 
+def alex():
+        hola = "hola"
+        hola2 = 'test'
+
 #Verifica si un valor es de tipo entero o flotante
 def isFloatOrInt(number):
 	if( isinstance(number, (float, int)) ):
@@ -302,13 +306,13 @@ class CargaTrifasica(object):
 	S   = None
 	fp  = None
 
-class CargaDelta(Carga):
+class CargaDelta(CargaTrifasica):
 	Zab = None
 	Zbc = None
 	Zca = None
 
 
-class CargaEstrella(Carga):
+class CargaEstrella(CargaTrifasica):
 	Zan = None
 	Zbn = None
 	Zcn = None

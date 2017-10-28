@@ -19,32 +19,123 @@
 		BoxLayout:
 			display: popupContent
 		BoxLayout:
-			display: popupControl
+			id: popupControl
+			CusotomButton:
+				text: "Aceptar"
+			CusotomButton:
+				text: "Cancelar"
 
-<SelecFuente@CustomPopup>
+<SelecFuente>
+	auto_dismiss: False
+	size_hint: None, None
+	size: 400, 200
 	title: "Seleccione el tipo de fuente"
-	GridLayout:
-		rows: 2
-		id: popupContent
+	
+	BoxLayout
+		pading: 10
+		size: self.parent.size
+		pos : self.parent.pos
+		orientation: "horizontal"
+	
 		Button:
 			text: "Estrella"
 			font_size: 32
-			size_hint: None, None
-			size: 150, 100
-			pos: root.x, root.y
-	
+			size: self.parent.size
+			pos: self.parent.pos
+			#pos_hint: {"center_x":.4,"center_y":.7}
+		
 		Button:
 			text: "Delta"
 			font_size: 32
-			size_hint: None, None
-			size: 150, 100
+			size: self.parent.size
+
+<SelecVab>
+	auto_dismiss: False
+	size_hint: None, None
+	size: 400, 230
+	title: "Digite el voltaje AB"
+
+	BoxLayout:
+		size: self.parent.size
+		pos : self.parent.pos
+		orientation: "vertical"
+
+		BoxLayout:
+			orientation: "horizontal"
+			size_hint_x: .3
+			CheckBox:
+				group: "recOrPol"
+				size_hint_x: .05
+
+			Label:
+				text: "Forma Polar"
+				size_hint_x: .15
+
+		BoxLayout:
+			orientation: "horizontal"
 			
-	CustomButton:
-		id: popupControl
-		text: "Salir"
+			TextInput:
+				hint_text: "Magnitud"
+			TextInput:
+				hint_text: "Angulo"
 
+		BoxLayout:
+			orientation: "horizontal"
+			size_hint_x: .4
 
+			CheckBox:
+				group: "recOrPol"
+				size_hint_x: .04
+
+			Label:
+				text: "Forma Rectangular"
+				size_hint_x: .15
+
+		BoxLayout:
+			orientation: "horizontal"
+			
+			TextInput:
+				hint_text: "Real"
+			
+			TextInput:
+				hint_text: "Complejo"
+
+		BoxLayout:
+			orientation: "horizontal"
+
+			Button:
+				text: "Regresar"
+
+			Button:
+				text: "Aceptar"
+			
 <AppLayout>:
 	id: app
-	SelecFuente
-	
+
+	BoxLayout:
+		size: self.parent.size
+		pos : self.parent.pos
+		orientation: "vertical"
+
+		BoxLayout:
+			size_hint_y: .35
+
+			Button:
+				text: "hola"
+
+		BoxLayout:
+			orientation: "vertical"
+			size_hint_y: .65
+			BoxLayout:
+				size_hint_y: .1
+				orientation: "horizontal"
+
+				Label:
+					text: "Cargas"
+
+				Button:
+					text: "Agregar Carga"
+			
+			
+			Button:
+				text: "hola2"	
