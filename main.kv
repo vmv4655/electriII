@@ -1,53 +1,11 @@
+#:import hex kivy.utils.get_color_from_hex
+#: import ListAdapter kivy.adapters.listadapter.ListAdapter
+#: import ListItemButton kivy.uix.listview.ListItemButton
 <CustomButton@Button>:
 	spacing: 10
 	font_size: 32
 	size_hint: None, None
 	size: 130, 50
-
-<CustomPopup@Popup>
-	id: customPopup
-	auto_dismiss: False
-	size_hint: None, None
-	size: 400, 300
-	pos_hint: {"center_x":.5,"center_y":.5}
-
-	GridLayout:
-		rows: 2
-		padding: 10
-		spacing: 10
-
-		BoxLayout:
-			display: popupContent
-		BoxLayout:
-			id: popupControl
-			CusotomButton:
-				text: "Aceptar"
-			CusotomButton:
-				text: "Cancelar"
-
-<SelecFuente>
-	auto_dismiss: False
-	size_hint: None, None
-	size: 400, 200
-	title: "Seleccione el tipo de fuente"
-	
-	BoxLayout
-		pading: 10
-		size: self.parent.size
-		pos : self.parent.pos
-		orientation: "horizontal"
-	
-		Button:
-			text: "Estrella"
-			font_size: 32
-			size: self.parent.size
-			pos: self.parent.pos
-			#pos_hint: {"center_x":.4,"center_y":.7}
-		
-		Button:
-			text: "Delta"
-			font_size: 32
-			size: self.parent.size
 
 <SelecVab>
 	auto_dismiss: False
@@ -108,34 +66,235 @@
 
 			Button:
 				text: "Aceptar"
-			
+<DataOutLabel@Label>
+	text_size: self.size
+	size_hint_x: .2
+	font_size: 20	
+	halign:    'left'
+	valign:    'middle'
+	bold:      True
+	color: 0, 0, 0, 1
+<DataLabel@Label>
+	text_size: self.size
+	font_size: 20
+	halign:    'left'
+	valign:    'middle'
+	color: 0, 0, 0, 1
+
 <AppLayout>:
 	id: app
-
 	BoxLayout:
 		size: self.parent.size
 		pos : self.parent.pos
 		orientation: "vertical"
 
+		#Seccion superior
 		BoxLayout:
-			size_hint_y: .35
+			size_hint_y: .20
+			orientation: "vertical"
+			spacing: 10
+			BoxLayout:
+				orientation: "horizontal"
+				canvas:
+					Color:
+						rgb: hex('#D0D3D4')
+					Rectangle:
+        				size: self.size
+        				pos: self.pos
+				BoxLayout:
+					orientation: "vertical"
+					size_hint_x: .45
+					Button:
+						background_color: 0, 1, 0, 1 #hex('#2ECC71')
+						text: "Seleccionar voltaje"
+						#on_press: app.setVoljateAB()
 
-			Button:
-				text: "hola"
+					BoxLayout:
+						size_hint_y: .7
+						orientation: "vertical"
+						Label:
+							bold:  True
+							color: 0, 0, 0, 1
+							text: "Fuente selecionada: "
 
+
+						Label:
+							bold:      True
+							color: 0, 0, 0, 1
+							text: "Delta"
+
+					Button:
+						background_color: 0, 1, 0, 1 #hex('#2ECC71')
+						text: "Seleccionar fuente"
+						on_press: app.setTipoFuente()
+				
+				BoxLayout:
+					orientation: "vertical"
+					BoxLayout:
+						orientation: "horizontal"
+						display: Van
+						DataOutLabel:
+							text: "Van: "
+						DataLabel	
+							id: Van
+
+					BoxLayout:
+						orientation: "horizontal"
+						display: Vbn
+						DataOutLabel:
+							text: "Vbn: "
+						DataLabel	
+							id: Vbn
+
+					BoxLayout:
+						orientation: "horizontal"
+						display: Vcn
+						DataOutLabel:
+							text: "Vcn: "
+						DataLabel	
+							id: Vcn
+
+					BoxLayout:
+						orientation: "horizontal"
+						display: Vab
+						DataOutLabel:
+							text: "Vab: "
+						DataLabel	
+							id: Vab
+					
+					BoxLayout:
+						orientation: "horizontal"
+						display: Vbc
+						DataOutLabel:
+							text: "Vbc: "
+						DataLabel	
+							id: Vbc
+
+					BoxLayout:
+						orientation: "horizontal"
+						display: Vca
+						DataOutLabel:
+							text: "Vca: "
+						DataLabel:	
+							id: Vca
+
+				BoxLayout:
+					orientation: "vertical"
+					BoxLayout:
+						orientation: "horizontal"
+						display: Ia
+						DataOutLabel:
+							text: "Ia: "
+						DataLabel:
+							id: Ia
+
+					BoxLayout:
+						orientation: "horizontal"
+						display: Ib
+						DataOutLabel:
+							text: "Ib: "
+						DataLabel:
+							id: Ib
+
+					BoxLayout:
+						orientation: "horizontal"
+						display: Ic
+						DataOutLabel:
+							text: "Ic: "
+						DataLabel:
+							id: Ic
+
+					BoxLayout:
+						orientation: "horizontal"
+						display: FP
+						DataOutLabel:
+							text: "FP: "
+						DataLabel:
+							id: FP
+
+					BoxLayout:
+						orientation: "horizontal"
+						display: L3W
+						DataOutLabel:
+							text: "L3W: "
+						DataLabel:
+							id: L3W
+
+					BoxLayout:
+						orientation: "horizontal"
+						display: L2W
+						DataOutLabel:
+							text: "L2W: "
+						DataLabel:
+							id: L2W
+
+		#Seccion inferior
 		BoxLayout:
 			orientation: "vertical"
 			size_hint_y: .65
+
 			BoxLayout:
-				size_hint_y: .1
+				size_hint_x: 1
+				size_hint_y: .08
 				orientation: "horizontal"
+				canvas:
+					Color:
+						rgba: hex('#212F3C')
+					Rectangle:
+        				size: self.size
+        				pos: self.pos
 
 				Label:
+					size_hint_x: .05
+					font_size: 24
 					text: "Cargas"
 
-				Button:
-					text: "Agregar Carga"
+				BoxLayout:
+					size_hint_x: .02
+
+					Button:
+						background_color: 0, 1, 0, 1#hex('#40ee8a')
+						size_hint_x: .2
+						text: "Agregar Carga"
+						font_size: 23
 			
 			
-			Button:
-				text: "hola2"	
+			BoxLayout:
+				canvas:
+					Color:
+						rgb: hex("#D0D3D4")
+					Rectangle:
+        				size: self.size
+        				pos: self.pos
+        		#ListView:
+        			#selected_color: [0, 0, 0, 1]#hex('#212F3C')
+        			#adapter:
+        				#ListAdapter(data=["Motor1", "Motor2", "Motor3", "Motor4"], cls=ListItemButton)
+
+
+<SelecFuente>
+	auto_dismiss: False
+	size_hint: None, None
+	size: 400, 200
+	title: "Seleccione el tipo de fuente"
+	on_dismiss: app.crearFuente()
+	BoxLayout
+		pading: 10
+		size: self.parent.size
+		pos : self.parent.pos
+		orientation: "horizontal"
+	
+		Button:
+			background_color: 0, 1, 0, 1 #hex('#2ECC71')
+			text: "Estrella"
+			font_size: 32
+			size: self.parent.size
+			pos: self.parent.pos
+			on_release: root.dismiss('estrella')
+		
+		Button:
+			background_color: 0, 1, 0, 1 #hex('#2ECC71')
+			text: "Delta"
+			font_size: 32
+			size: self.parent.size
+			on_release: root.dismiss('delta')
