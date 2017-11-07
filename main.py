@@ -8,7 +8,7 @@ from kivy.uix.popup import Popup
 from kivy.core.window import Window
 
 #Variables globales#
-fuente = []
+fuente = [None]
 cargas = []
 
 class SelecFuente(Popup):
@@ -18,33 +18,113 @@ class SelecVab(Popup):
 	pass
 
 class AppLayout(FloatLayout):
-	def setVoljateAB(self):
-		selecVab = SelecVab()
-		selecVab.open()
+	tipoFuente = ""
+	fuente     = None
 
-	def crearFuente(self):
-		selecVab = SelecVab()
-		selecVab.open()
-
-	def setTipoFuente(self):
+	def getTipoFuente(self):
 		selecFuente = SelecFuente()
 		selecFuente.open()
-		selecFuente.bind(on_dismiss=setTipoFuente())
-class mainApp(App):
+
+	def setTipoFuente(self, tipoFuente):#self, tipo, a, b, secuencia):
+		self.tipoFuente = tipoFuente
+		self.tipoDeFuente.text = tipoFuente
+		self.getVoltajeAB()
+
+	def getVoltajeAB(self):
+		selecVab = SelecVab()
+		selecVab.open()
+
+	def updateVoltajesPantalla(self):
+		if(fuente[0] == None):
+			return
+		else:
+			self.Van.text = fuente[0].getPolFromRec( getVan() )
+			self.Vbn.text = fuente[0].getPolFromRec( getVbn() )
+			self.Vcn.text = fuente[0].getPolFromRec( getVcn() )
+			self.Vab.text = fuente[0].getPolFromRec( getVab() )
+			self.Vbc.text = fuente[0].getPolFromRec( getVbc() )
+			self.Vca.text = fuente[0].getPolFromRec( getVca() )
+			
 	
+	def setVoltajeAB(self, secuenciaState, recOrPolState, magnitud, angulo, real, imaginario ):
+		Vab = None
+		print(secuenciaState)
+		print(recOrPolState)
+		print(magnitud)
+		print(angulo)
+		print(real)
+		print(imaginario)
+
+		if(recOrPolState == 'down'): #Forma Polar
+			print('POLAR')
+			#Verificar que tenemos datos
+			if(magnitud == "" or angulo == ""):
+				selecVab = SelecVab(title = "Todos los campos son requeridos", title_color = [1, 0, 0, 1] )
+				selecVab.open()
+				return
+			else:
+				Vab = getRecFromPol(float(magnitud), float(angulo))
+				print(Vab)
+				if(secuenciaState == 'down'): #Secuencia ABC
+					if(self.tipoFuente == "Estrella"):
+						self.fuente = FuenteEstrella()
+						self.fuente.calcularVoltajes(None , None, None, Vab, None, None, "ABC")
+		
+					elif(self.tipoFuente == "Delta"):
+						self.fuente = FuenteDelta()
+						self.fuente.calcularVoltajes(None , None, None, Vab, None, None, "ABC")
+
+				elif(secuenciaState == 'normal'): #Secuencia ACB
+					if(self.tipoFuente == "Estrella"):
+						self.fuente = FuenteEstrella()
+						self.fuente.calcularVoltajes(None , None, None, Vab, None, None, "ACB")
+		
+					elif(self.tipoFuente == "Delta"):
+						self.fuente = FuenteDelta()
+						self.fuente.calcularVoltajes(None , None, None, Vab, None, None, "ACB")
+
+
+		
+		
+
+		elif(recOrPolState == 'normal'): #Forma Rectangular
+			print('RECTANGULAR')
+			#Verificar que tenemos datos
+			if(real == "" or imaginario == ""):
+				selecVab = SelecVab(title = "Todos los campos son requeridos", title_color = [1, 0, 0, 1] )
+				selecVab.open()
+				return
+
+			else:
+				Vab = complex(float(real), float(imaginario))
+				print(Vab)
+				if(secuenciaState == 'down'): #Secuencia ABC
+					if(self.tipoFuente == "Estrella"):
+						pass
+		
+					elif(self.tipoFuente == "Delta"):
+						pass
+
+				elif(secuenciaState == 'normal'): #Secuencia ACB
+					if(self.tipoFuente == "Estrella"):
+						pass
+		
+					elif(self.tipoFuente == "Delta"):
+						pass
+
+		fuente = [self.fuente]
+		self.updateVoltajesPantalla()
+
+	
+class mainApp(App):
+	appLayout = None
+	#appLayout = AppLayout();
 	def build(self):
-		#selecFuente = SelecFuente()
-		#selecFuente.open()
-		#selecVab = SelecVab()
-		#selecVab.open()
-		#fuenteDelta = FuenteDelta()
-		Window.clearcolor = (.4, .4, .4, 1)
-		return AppLayout()
+		self.appLayout = AppLayout();
+		return self.appLayout#self.appLayout
+
+	def on_start(self):
+		self.appLayout.getTipoFuente()
 
 if __name__ == '__main__':
     mainApp().run()
-
-
-
-
-

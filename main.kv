@@ -7,73 +7,6 @@
 	size_hint: None, None
 	size: 130, 50
 
-<SelecVab>
-	auto_dismiss: False
-	size_hint: None, None
-	size: 400, 230
-	title: "Digite el voltaje AB"
-
-	BoxLayout:
-		size: self.parent.size
-		pos : self.parent.pos
-		orientation: "vertical"
-
-		BoxLayout:
-			orientation: "horizontal"
-			size_hint_x: .3
-			CheckBox:
-				group: "recOrPol"
-				size_hint_x: .05
-
-			Label:
-				text: "Forma Polar"
-				size_hint_x: .15
-
-		BoxLayout:
-			orientation: "horizontal"
-			
-			TextInput:
-				hint_text: "Magnitud"
-			TextInput:
-				hint_text: "Angulo"
-
-		BoxLayout:
-			orientation: "horizontal"
-			size_hint_x: .4
-
-			CheckBox:
-				group: "recOrPol"
-				size_hint_x: .04
-
-			Label:
-				text: "Forma Rectangular"
-				size_hint_x: .15
-
-		BoxLayout:
-			orientation: "horizontal"
-			
-			TextInput:
-				hint_text: "Real"
-			
-			TextInput:
-				hint_text: "Complejo"
-
-		BoxLayout:
-			orientation: "horizontal"
-
-			Button:
-				text: "Regresar"
-
-			Button:
-				text: "Aceptar"
-<DataOutLabel@Label>
-	text_size: self.size
-	size_hint_x: .2
-	font_size: 20	
-	halign:    'left'
-	valign:    'middle'
-	bold:      True
-	color: 0, 0, 0, 1
 <DataLabel@Label>
 	text_size: self.size
 	font_size: 20
@@ -82,11 +15,20 @@
 	color: 0, 0, 0, 1
 
 <AppLayout>:
-	id: app
+	id:appLayout
+	tipoDeFuente:tipoFuente
+	Van 		 : _Van
+	Vbn 		 : _Vbn
+	Vcn 		 : _Vcn
+	Vab 		 : _Vab
+	Vbc 		 : _Vbc
+	Vca 		 : _Vca
+	
 	BoxLayout:
 		size: self.parent.size
 		pos : self.parent.pos
 		orientation: "vertical"
+
 
 		#Seccion superior
 		BoxLayout:
@@ -107,7 +49,7 @@
 					Button:
 						background_color: 0, 1, 0, 1 #hex('#2ECC71')
 						text: "Seleccionar voltaje"
-						#on_press: app.setVoljateAB()
+						on_press: app.appLayout.getVoltajeAB()
 
 					BoxLayout:
 						size_hint_y: .7
@@ -119,70 +61,70 @@
 
 
 						Label:
-							bold:      True
+							id: tipoFuente
+							#bold:      True
 							color: 0, 0, 0, 1
-							text: "Delta"
+							text: ""
 
 					Button:
 						background_color: 0, 1, 0, 1 #hex('#2ECC71')
 						text: "Seleccionar fuente"
-						on_press: app.setTipoFuente()
+						on_press: root.getTipoFuente()
 				
 				BoxLayout:
 					orientation: "vertical"
 					BoxLayout:
 						orientation: "horizontal"
-						display: Van
 						DataOutLabel:
 							text: "Van: "
 						DataLabel	
-							id: Van
+							id: _Van
+							text: ""
 
 					BoxLayout:
 						orientation: "horizontal"
-						display: Vbn
 						DataOutLabel:
 							text: "Vbn: "
 						DataLabel	
-							id: Vbn
+							id: _Vbn
+							text: ""
 
 					BoxLayout:
 						orientation: "horizontal"
-						display: Vcn
 						DataOutLabel:
 							text: "Vcn: "
 						DataLabel	
-							id: Vcn
+							id: _Vcn
+							text: ""
 
 					BoxLayout:
 						orientation: "horizontal"
-						display: Vab
 						DataOutLabel:
 							text: "Vab: "
 						DataLabel	
-							id: Vab
+							id: _Vab
+							text: ""
 					
 					BoxLayout:
 						orientation: "horizontal"
-						display: Vbc
 						DataOutLabel:
 							text: "Vbc: "
 						DataLabel	
-							id: Vbc
+							id: _Vbc
+							text: ""
 
 					BoxLayout:
 						orientation: "horizontal"
-						display: Vca
 						DataOutLabel:
 							text: "Vca: "
 						DataLabel:	
-							id: Vca
+							id: _Vca
+							text: ""
 
 				BoxLayout:
 					orientation: "vertical"
 					BoxLayout:
 						orientation: "horizontal"
-						display: Ia
 						DataOutLabel:
 							text: "Ia: "
 						DataLabel:
@@ -190,7 +132,6 @@
 
 					BoxLayout:
 						orientation: "horizontal"
-						display: Ib
 						DataOutLabel:
 							text: "Ib: "
 						DataLabel:
@@ -198,7 +139,6 @@
 
 					BoxLayout:
 						orientation: "horizontal"
-						display: Ic
 						DataOutLabel:
 							text: "Ic: "
 						DataLabel:
@@ -206,7 +146,6 @@
 
 					BoxLayout:
 						orientation: "horizontal"
-						display: FP
 						DataOutLabel:
 							text: "FP: "
 						DataLabel:
@@ -214,7 +153,6 @@
 
 					BoxLayout:
 						orientation: "horizontal"
-						display: L3W
 						DataOutLabel:
 							text: "L3W: "
 						DataLabel:
@@ -222,7 +160,6 @@
 
 					BoxLayout:
 						orientation: "horizontal"
-						display: L2W
 						DataOutLabel:
 							text: "L2W: "
 						DataLabel:
@@ -272,12 +209,145 @@
         				#ListAdapter(data=["Motor1", "Motor2", "Motor3", "Motor4"], cls=ListItemButton)
 
 
+<SelecVab>
+	auto_dismiss: False
+	size_hint: None, None
+	size: 400, 250
+	title: "Digite el voltaje AB"
+	separator_color: 0, 1, 0, 1 #hex('#2ECC71')
+
+	BoxLayout:
+		size: self.parent.size
+		pos : self.parent.pos
+		orientation: "vertical"
+
+		BoxLayout:
+			padding: 10
+			#size_hint_x: .75
+			orientation: "horizontal"
+			
+			ToggleButton:
+				id: ABC
+				background_color: 0, 1, 0, 1 #hex('#2ECC71')
+				text: "ABC"
+				group: "secuencia"
+				state: "down"	
+
+			ToggleButton:
+				id: ACB
+				background_color: 0, 1, 0, 1 #hex('#2ECC71')
+				text: "ACB"
+				group: "secuencia"
+				state: "normal"
+
+		BoxLayout:
+			orientation: "horizontal"
+			size_hint_x: .3
+			CheckBox:
+				id: PolSelected
+				color: 0, 1, 0, 1 #hex('#2ECC71')
+				group: "recOrPol"
+				size_hint_x: .05
+				active: True
+
+			Label:
+				text: "Forma Polar"
+				size_hint_x: .15
+
+
+		BoxLayout:
+			size_hint_x: .7
+			orientation: "horizontal"
+
+			BoxLayout:
+				size_hint_x: .25
+			
+			TextInput:
+				id: vMagnitud
+				hint_text: "Magnitud"
+				input_filter: "float"
+				write_tab: False
+				disabled: not PolSelected.active
+			TextInput:
+				id: vAngulo
+				hint_text: "Angulo"
+				input_filter: "float"
+				write_tab: False
+				disabled: not PolSelected.active
+
+		BoxLayout:
+			orientation: "horizontal"
+			size_hint_x: .4
+
+			CheckBox:
+				id: RectSelected
+				color: 0, 1, 0, 1 #hex('#2ECC71')
+				group: "recOrPol"
+				size_hint_x: .04
+
+			Label:
+				text: "Forma Rectangular"
+				size_hint_x: .15
+
+		BoxLayout:
+			size_hint_x: .7
+			orientation: "horizontal"
+			
+			BoxLayout:
+				size_hint_x: .25
+
+			TextInput:
+				id: vReal
+				hint_text: "Real"
+				input_filter: "float"
+				write_tab: False
+				disabled: not RectSelected.active
+			
+			TextInput:
+				id: vComplejo
+				hint_text: "Complejo (j)"
+				input_filter: "float"
+				write_tab: False
+				disabled: not RectSelected.active
+		BoxLayout:
+			size_hint_y: .3
+
+		BoxLayout:
+			size_hint_y: 1
+			orientation: "horizontal"
+
+			Button:
+				background_color: 0, 1, 0, 1 #hex('#2ECC71')
+				text: "Regresar"
+				on_press:
+					root.dismiss()
+					app.appLayout.getTipoFuente()
+
+			Button:
+				background_color: 0, 1, 0, 1 #hex('#2ECC71')
+				text: "Aceptar"
+				on_press:
+					root.dismiss()
+					app.appLayout.setVoltajeAB(ABC.state, PolSelected.state, vMagnitud.text, vAngulo.text, vReal.text, vComplejo.text)
+
+		
+
+
+<DataOutLabel@Label>
+	text_size: self.size
+	size_hint_x: .2
+	font_size: 20	
+	halign:    'left'
+	valign:    'middle'
+	bold:      True
+	color: 0, 0, 0, 1
+
+
 <SelecFuente>
 	auto_dismiss: False
 	size_hint: None, None
 	size: 400, 200
 	title: "Seleccione el tipo de fuente"
-	on_dismiss: app.crearFuente()
 	BoxLayout
 		pading: 10
 		size: self.parent.size
@@ -290,11 +360,15 @@
 			font_size: 32
 			size: self.parent.size
 			pos: self.parent.pos
-			on_release: root.dismiss('estrella')
+			on_release: 
+				root.dismiss()
+				app.appLayout.setTipoFuente('Estrella')
 		
 		Button:
 			background_color: 0, 1, 0, 1 #hex('#2ECC71')
 			text: "Delta"
 			font_size: 32
 			size: self.parent.size
-			on_release: root.dismiss('delta')
+			on_release: 
+				root.dismiss()
+				app.appLayout.setTipoFuente('Delta')
