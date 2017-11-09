@@ -8,8 +8,7 @@ from kivy.uix.popup import Popup
 from kivy.core.window import Window
 
 #Variables globales#
-fuente = [None]
-cargas = []
+listaCargas  = []
 
 class SelecFuente(Popup):
 	pass
@@ -18,6 +17,7 @@ class SelecVab(Popup):
 	pass
 
 class AppLayout(FloatLayout):
+	listaFuentes = [None]
 	tipoFuente = ""
 	fuente     = None
 
@@ -35,15 +35,15 @@ class AppLayout(FloatLayout):
 		selecVab.open()
 
 	def updateVoltajesPantalla(self):
-		if(fuente[0] == None):
+		if(self.listaFuentes[0] == None):
 			return
 		else:
-			self.Van.text = fuente[0].getPolFromRec( getVan() )
-			self.Vbn.text = fuente[0].getPolFromRec( getVbn() )
-			self.Vcn.text = fuente[0].getPolFromRec( getVcn() )
-			self.Vab.text = fuente[0].getPolFromRec( getVab() )
-			self.Vbc.text = fuente[0].getPolFromRec( getVbc() )
-			self.Vca.text = fuente[0].getPolFromRec( getVca() )
+			self.displayVan.text = str( getPolFromRecToGUI( self.listaFuentes[0].getVan() ))
+			self.displayVbn.text = str( getPolFromRecToGUI( self.listaFuentes[0].getVbn() ))
+			self.displayVcn.text = str( getPolFromRecToGUI( self.listaFuentes[0].getVcn() ))
+			self.displayVab.text = str( getPolFromRecToGUI( self.listaFuentes[0].getVab() ))
+			self.displayVbc.text = str( getPolFromRecToGUI( self.listaFuentes[0].getVbc() ))
+			self.displayVca.text = str( getPolFromRecToGUI( self.listaFuentes[0].getVca() ))
 			
 	
 	def setVoltajeAB(self, secuenciaState, recOrPolState, magnitud, angulo, real, imaginario ):
@@ -100,19 +100,24 @@ class AppLayout(FloatLayout):
 				print(Vab)
 				if(secuenciaState == 'down'): #Secuencia ABC
 					if(self.tipoFuente == "Estrella"):
-						pass
+						self.fuente = FuenteEstrella()
+						self.fuente.calcularVoltajes(None , None, None, Vab, None, None, "ABC")
 		
 					elif(self.tipoFuente == "Delta"):
-						pass
+						self.fuente = FuenteDelta()
+						self.fuente.calcularVoltajes(None , None, None, Vab, None, None, "ABC")
 
 				elif(secuenciaState == 'normal'): #Secuencia ACB
 					if(self.tipoFuente == "Estrella"):
-						pass
+						self.fuente = FuenteEstrella()
+						self.fuente.calcularVoltajes(None , None, None, Vab, None, None, "ACB")
 		
 					elif(self.tipoFuente == "Delta"):
-						pass
+						self.fuente = FuenteDelta()
+						self.fuente.calcularVoltajes(None , None, None, Vab, None, None, "ACB")
 
-		fuente = [self.fuente]
+		#Guardando fuente en una lista...
+		self.listaFuentes = [self.fuente]
 		self.updateVoltajesPantalla()
 
 	

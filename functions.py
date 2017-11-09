@@ -47,6 +47,20 @@ def getPolFromRec(complexNumber):
 	else:
 		return False
 
+#Devuelve una tupla compuesta de la magnitud y
+#angulo (en grados) del numero polar a partir de un numero
+#complejo rectangular (valores redondeados). Falso si el parametro de
+#entrada no es un numero complejo.
+def getPolFromRecToGUI(complexNumber):
+	if( isRecComplex(complexNumber) ):
+		polar  = cmath.polar(complexNumber)
+		angle  = radToDeg(polar[1]);
+		result = str(round(polar[0],4)) + " < " + str(round(angle, 4))
+		#return (round(polar[0],4), round(angle, 4)) 
+		return result
+	else:
+		return False
+
 
 #retorna un numero rectangular de uno polar
 #el angulo debe estar en grados!!
