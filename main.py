@@ -7,16 +7,32 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.popup import Popup
 from kivy.core.window import Window
 
-#Variables globales#
-listaCargas  = []
-
 class SelecFuente(Popup):
 	pass
 
 class SelecVab(Popup):
 	pass
 
+class SelectCarga(Popup):
+	pass
+
+class SelectTipoTrifasica(Popup):
+	pass
+
+class GetCargaDelta(Popup):
+	pass
+
+class GetCargaEstrella(Popup):
+	pass
+
+class GetCargaMonofase(Popup):
+	pass
+
+class GetCargaMotor(Popup):
+	pass
+
 class AppLayout(FloatLayout):
+	listaCargas  = [None]
 	listaFuentes = [None]
 	tipoFuente = ""
 	fuente     = None
@@ -59,7 +75,7 @@ class AppLayout(FloatLayout):
 			print('POLAR')
 			#Verificar que tenemos datos
 			if(magnitud == "" or angulo == ""):
-				selecVab = SelecVab(title = "Todos los campos son requeridos", title_color = [1, 0, 0, 1] )
+				selecVab = SelecVab(title = "Todos los campos son requeridos, digite Vab", title_color = [1, 0, 0, 1] )
 				selecVab.open()
 				return
 			else:
@@ -120,6 +136,13 @@ class AppLayout(FloatLayout):
 		self.listaFuentes = [self.fuente]
 		self.updateVoltajesPantalla()
 
+	def getTipoCarga(self):
+		getTipoCarga = SelectCarga()
+		getTipoCarga.open()
+
+	def probarPupups(self):
+		prueba = GetCargaMonofase()
+		prueba.open()
 	
 class mainApp(App):
 	appLayout = None

@@ -1,9 +1,5 @@
 import cmath, math
 
-def alex():
-        hola = "hola"
-        hola2 = 'test'
-
 #Verifica si un valor es de tipo entero o flotante
 def isFloatOrInt(number):
 	if( isinstance(number, (float, int)) ):

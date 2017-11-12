@@ -194,6 +194,7 @@
 						size_hint_x: .2
 						text: "Agregar Carga"
 						font_size: 23
+						on_press: app.appLayout.probarPupups()#getTipoCarga()
 			
 			
 			BoxLayout:
@@ -210,7 +211,7 @@
 
 
 <SelecVab>
-	auto_dismiss: False
+	#auto_dismiss: False
 	size_hint: None, None
 	size: 400, 250
 	title: "Digite el voltaje AB"
@@ -344,10 +345,11 @@
 
 
 <SelecFuente>
-	auto_dismiss: False
+	#auto_dismiss: False
 	size_hint: None, None
 	size: 400, 200
 	title: "Seleccione el tipo de fuente"
+	separator_color: 0, 1, 0, 1 #hex('#2ECC71')
 	BoxLayout
 		pading: 10
 		size: self.parent.size
@@ -372,3 +374,230 @@
 			on_release: 
 				root.dismiss()
 				app.appLayout.setTipoFuente('Delta')
+
+<textoTiposDeFuente@Label>
+	text_size: self.size
+	size_hint_x: .2
+	font_size: 20	
+	halign:    'left'
+	valign:    'middle'
+	#bold:      True
+
+<selectCarga>
+	size_hint: None, None
+	size: 400, 200
+	title: "Seleccione el tipo de carga"
+	separator_color: 0, 1, 0, 1 #hex('#2ECC71')
+	BoxLayout:
+		orientation: "vertical"
+		size: self.parent.size
+		pos : self.parent.pos
+		BoxLayout:
+			size_hint_x: .5
+			orientation: "horizontal"
+			CheckBox:
+				id: trifasicaSelected
+				color: 0, 1, 0, 1 #hex('#2ECC71')
+				group: "tipoCarga"
+				size_hint_x: .05
+				active: True
+
+			textoTiposDeFuente:
+				text: "Trifasica"
+				size_hint_x: .15
+
+		BoxLayout:
+			size_hint_x: .5
+			orientation: "horizontal"
+			CheckBox:
+				id: monofaseSelected
+				color: 0, 1, 0, 1 #hex('#2ECC71')
+				group: "tipoCarga"
+				size_hint_x: .05
+				active: False
+
+			textoTiposDeFuente:
+				text: "Monofasica"
+				size_hint_x: .15
+
+		BoxLayout:
+			size_hint_x: .5
+			orientation: "horizontal"
+			CheckBox:
+				id: motorSelected
+				color: 0, 1, 0, 1 #hex('#2ECC71')
+				group: "tipoCarga"
+				size_hint_x: .05
+				active: False
+
+			textoTiposDeFuente:
+				text: "Motor"
+				size_hint_x: .15
+
+		BoxLayout:
+			size_hint_y: 1
+			orientation: "horizontal"
+
+			Button:
+				background_color: 0, 1, 0, 1 #hex('#2ECC71')
+				text: "Cancelar"
+				on_press:
+					root.dismiss()
+
+			Button:
+				background_color: 0, 1, 0, 1 #hex('#2ECC71')
+				text: "Aceptar"
+				on_press:
+					root.dismiss()
+					#app.appLayout.setVoltajeAB(ABC.state, PolSelected.state, vMagnitud.text, vAngulo.text, vReal.text, vComplejo.text)
+
+<GetCargaMonofase>
+	size_hint: None, None
+	size: 400, 200
+	title: "Seleccione el tipo de carga"
+	separator_color: 0, 1, 0, 1 #hex('#2ECC71')
+	BoxLayout:
+		orientation: "vertical"
+		
+		BoxLayout:
+			size_hint_x: 1
+			orientation: "horizontal"
+			
+			Label:
+				text: "Seleccione en cuales fases esta conectada esta carga"
+				size_hint_x: 1
+		
+		BoxLayout:
+			orientation: "horizontal"
+			size: self.parent.size
+			pos : self.parent.pos
+			BoxLayout:
+				size_hint_x: .5
+				orientation: "horizontal"
+				CheckBox:
+					id: a1Selected
+					color: 0, 1, 0, 1 #hex('#2ECC71')
+					group: "fase1"
+					size_hint_x: .05
+					active: True
+
+				textoTiposDeFuente:
+					text: "A"
+					size_hint_x: .15
+			BoxLayout:
+				size_hint_x: .5
+				orientation: "horizontal"
+				CheckBox:
+					id: b1Selected
+					color: 0, 1, 0, 1 #hex('#2ECC71')
+					group: "fase1"
+					size_hint_x: .05
+					active: False
+
+				textoTiposDeFuente:
+					text: "B"
+					size_hint_x: .15
+
+			BoxLayout:
+				size_hint_x: .5
+				orientation: "horizontal"
+				CheckBox:
+					id: c1Selected
+					color: 0, 1, 0, 1 #hex('#2ECC71')
+					group: "fase1"
+					size_hint_x: .05
+					active: False
+
+				textoTiposDeFuente:
+					text: "C"
+					size_hint_x: .15
+
+			BoxLayout:
+				size_hint_x: .5
+				orientation: "horizontal"
+				CheckBox:
+					id: n1Selected
+					color: 0, 1, 0, 1 #hex('#2ECC71')
+					group: "fase1"
+					size_hint_x: .05
+					active: False
+
+				textoTiposDeFuente:
+					text: "N"
+					size_hint_x: .15
+
+		BoxLayout:
+			orientation: "horizontal"
+			size: self.parent.size
+			pos : self.parent.pos
+			BoxLayout:
+				size_hint_x: .5
+				orientation: "horizontal"
+				CheckBox:
+					id: a2Selected
+					color: 0, 1, 0, 1 #hex('#2ECC71')
+					group: "fase2"
+					size_hint_x: .05
+					active: False
+
+				textoTiposDeFuente:
+					text: "A"
+					size_hint_x: .15
+			BoxLayout:
+				size_hint_x: .5
+				orientation: "horizontal"
+				CheckBox:
+					id: b2Selected
+					color: 0, 1, 0, 1 #hex('#2ECC71')
+					group: "fase2"
+					size_hint_x: .05
+					active: True
+
+				textoTiposDeFuente:
+					text: "B"
+					size_hint_x: .15
+
+			BoxLayout:
+				size_hint_x: .5
+				orientation: "horizontal"
+				CheckBox:
+					id: c2Selected
+					color: 0, 1, 0, 1 #hex('#2ECC71')
+					group: "fase2"
+					size_hint_x: .05
+					active: False
+
+				textoTiposDeFuente:
+					text: "C"
+					size_hint_x: .15
+
+			BoxLayout:
+				size_hint_x: .5
+				orientation: "horizontal"
+				CheckBox:
+					id: n2Selected
+					color: 0, 1, 0, 1 #hex('#2ECC71')
+					group: "fase2"
+					size_hint_x: .05
+					active: False
+
+				textoTiposDeFuente:
+					text: "N"
+					size_hint_x: .15
+
+		BoxLayout:
+			size_hint_y: 1
+			orientation: "horizontal"
+
+			Button:
+				background_color: 0, 1, 0, 1 #hex('#2ECC71')
+				text: "Cancelar"
+				on_press:
+					root.dismiss()
+
+			Button:
+				background_color: 0, 1, 0, 1 #hex('#2ECC71')
+				text: "Aceptar"
+				on_press:
+					root.dismiss()
+					#app.appLayout.setVoltajeAB(ABC.state, PolSelected.state, vMagnitud.text, vAngulo.text, vReal.text, vComplejo.text)
