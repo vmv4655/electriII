@@ -201,7 +201,7 @@
 						size_hint_x: .2
 						text: "Agregar Carga"
 						font_size: 23
-						on_press: app.appLayout.probarPupups()#getTipoCarga()
+						on_press: app.appLayout.getTipoCarga()
 			
 			
 			BoxLayout:
@@ -420,6 +420,7 @@
 			orientation: "horizontal"
 			CheckBox:
 				id: monofaseSelected
+				text: "Monofase"
 				color: 1, 1, 1, 1 #hex('#2ECC71')
 				group: "tipoCarga"
 				size_hint_x: .05
@@ -434,6 +435,7 @@
 			orientation: "horizontal"
 			CheckBox:
 				id: motorSelected
+				text: "Motor"
 				color: 1, 1, 1, 1 #hex('#2ECC71')
 				group: "tipoCarga"
 				size_hint_x: .05
@@ -458,8 +460,8 @@
 				text: "Aceptar"
 				on_press:
 					root.dismiss()
-					#app.appLayout.setVoltajeAB(ABC.state, PolSelected.state, vMagnitud.text, vAngulo.text, vReal.text, vComplejo.text)
-
+					app.appLayout.setTipoCarga(tipoCarga.active)
+					
 <GetCargaMonofase>
 	size_hint: None, None
 	size: 400, 380
@@ -1649,23 +1651,36 @@
 		BoxLayout:
 			orientation: "horizontal"
 			size_hint_x: 1
-			CheckBox:
-				id: zEstrellaSelected
-				color: 1, 1, 1, 1 #hex('#2ECC71')
-				group: "pOzEstrella"
-				size_hint_x: .1
-				active: False
+			BoxLayout:
+				#size_hint_x: .3
+				orientation: "horizontal"
+			
+				CheckBox:
+					id: zEstrellaSelected
+					color: 1, 1, 1, 1 #hex('#2ECC71')
+					group: "pOzEstrella"
+					size_hint_x: .1
+					active: False
 
-			Label:
-				text: "Impedancia"
-				#size_hint_x: .15
+				Label:
+					text: "Impedancia"
+					#size_hint_x: .15
+
+			BoxLayout:
+				#size_hint_x:.3
+
 
 			BoxLayout:
 				orientation: "horizontal"
-				size_hint_x: .8
+				#size_hint_x: 1
 
-				Label:
-					text: "Neutro?"
+				BoxLayout:
+					size_hint_x: .3
+					Label:
+						text: "Neutro?"
+
+				BoxLayout:
+					size_hint_x: 1
 
 				CheckBox:
 					id: siNeutroSelected
@@ -1690,8 +1705,8 @@
 				Label:
 					text: "No"
 					#size_hint_x: .15
-				BoxLayout:
-					size_hint_x: .3
+				#BoxLayout:
+					#size_hint_x: .3
 
 
 

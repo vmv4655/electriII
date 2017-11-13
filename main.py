@@ -41,8 +41,10 @@ class GetCargaMonofase(Popup):
 class AppLayout(FloatLayout):
 	listaCargas  = [None]
 	listaFuentes = [None]
-	tipoFuente = ""
-	fuente     = None
+	fuente       = None
+	tipoFuente   = ""
+	tmpTipoCarga = ""
+	
 
 	def getTipoFuente(self):
 		selecFuente = SelecFuente()
@@ -147,10 +149,19 @@ class AppLayout(FloatLayout):
 		getTipoCarga = SelectCarga()
 		getTipoCarga.open()
 
-	def probarPupups(self):
-		prueba = GetCargaEstrella()
-		prueba.open()
-	
+	def setTipoCarga(self, tipoCarga):
+		if(tipoCarga == "Trifasica"):
+			getTipoTrifasica = GetTipoTrifasica()
+			getTipoTrifasica.open()
+		
+		elif(tipoCarga == "Monofasica"):
+			getCargaMonofase = GetCargaMonofase()
+			getCargaMonofase.open()
+		
+		elif(tipoCarga == "Motor"):
+			getTipoMotor = GetTipoMotor()
+			getTipoMotor.open()
+
 class mainApp(App):
 	appLayout = None
 	#appLayout = AppLayout();
