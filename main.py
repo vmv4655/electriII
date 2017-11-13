@@ -16,7 +16,7 @@ class SelecVab(Popup):
 class SelectCarga(Popup):
 	pass
 
-class SelectTipoTrifasica(Popup):
+class GetTipoTrifasica(Popup):
 	pass
 
 class GetCargaDelta(Popup):
@@ -25,11 +25,18 @@ class GetCargaDelta(Popup):
 class GetCargaEstrella(Popup):
 	pass
 
+class GetTipoMotor(Popup):
+	pass
+
+class GetCargaMotorTrifase(Popup):
+	pass
+
+class GetCargaMotorMonofase(Popup):
+	pass
+
 class GetCargaMonofase(Popup):
 	pass
 
-class GetCargaMotor(Popup):
-	pass
 
 class AppLayout(FloatLayout):
 	listaCargas  = [None]
@@ -141,7 +148,7 @@ class AppLayout(FloatLayout):
 		getTipoCarga.open()
 
 	def probarPupups(self):
-		prueba = GetCargaMonofase()
+		prueba = GetCargaEstrella()
 		prueba.open()
 	
 class mainApp(App):

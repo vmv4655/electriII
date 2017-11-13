@@ -47,7 +47,7 @@
 					orientation: "vertical"
 					size_hint_x: .45
 					Button:
-						background_color: 0, 1, 0, 1 #hex('#2ECC71')
+						background_color: hex('#cd035a')
 						text: "Seleccionar voltaje"
 						on_press: app.appLayout.getVoltajeAB()
 
@@ -67,7 +67,7 @@
 							text: ""
 
 					Button:
-						background_color: 0, 1, 0, 1 #hex('#2ECC71')
+						background_color: hex('#cd035a')
 						text: "Seleccionar fuente"
 						on_press: root.getTipoFuente()
 				
@@ -147,6 +147,13 @@
 					BoxLayout:
 						orientation: "horizontal"
 						DataOutLabel:
+							text: "In: "
+						DataLabel:
+							id: In
+
+					BoxLayout:
+						orientation: "horizontal"
+						DataOutLabel:
 							text: "FP: "
 						DataLabel:
 							id: FP
@@ -190,7 +197,7 @@
 					size_hint_x: .02
 
 					Button:
-						background_color: 0, 1, 0, 1#hex('#40ee8a')
+						background_color: hex('#cd035a')
 						size_hint_x: .2
 						text: "Agregar Carga"
 						font_size: 23
@@ -207,7 +214,7 @@
         		#ListView:
         			#selected_color: [0, 0, 0, 1]#hex('#212F3C')
         			#adapter:
-        				#ListAdapter(data=["Motor1", "Motor2", "Motor3", "Motor4"], cls=ListItemButton)
+        				#ListAdapter(data=["Motor1", "Motor2", "Delta", "Motor4"], cls=ListItemButton)
 
 
 <SelecVab>
@@ -215,7 +222,7 @@
 	size_hint: None, None
 	size: 400, 250
 	title: "Digite el voltaje AB"
-	separator_color: 0, 1, 0, 1 #hex('#2ECC71')
+	separator_color: hex('#740233')
 
 	BoxLayout:
 		size: self.parent.size
@@ -229,14 +236,14 @@
 			
 			ToggleButton:
 				id: ABC
-				background_color: 0, 1, 0, 1 #hex('#2ECC71')
+				background_color: hex('#cd035a')
 				text: "ABC"
 				group: "secuencia"
 				state: "down"	
 
 			ToggleButton:
 				id: ACB
-				background_color: 0, 1, 0, 1 #hex('#2ECC71')
+				background_color: hex('#cd035a')
 				text: "ACB"
 				group: "secuencia"
 				state: "normal"
@@ -246,7 +253,7 @@
 			size_hint_x: .3
 			CheckBox:
 				id: PolSelected
-				color: 0, 1, 0, 1 #hex('#2ECC71')
+				color: 1, 1, 1, 1 #hex('#2ECC71')
 				group: "recOrPol"
 				size_hint_x: .05
 				active: True
@@ -282,7 +289,7 @@
 
 			CheckBox:
 				id: RectSelected
-				color: 0, 1, 0, 1 #hex('#2ECC71')
+				color: 1, 1, 1, 1 #hex('#2ECC71')
 				group: "recOrPol"
 				size_hint_x: .04
 
@@ -318,14 +325,14 @@
 			orientation: "horizontal"
 
 			Button:
-				background_color: 0, 1, 0, 1 #hex('#2ECC71')
+				background_color: hex('#cd035a')
 				text: "Regresar"
 				on_press:
 					root.dismiss()
 					app.appLayout.getTipoFuente()
 
 			Button:
-				background_color: 0, 1, 0, 1 #hex('#2ECC71')
+				background_color: hex('#cd035a')
 				text: "Aceptar"
 				on_press:
 					root.dismiss()
@@ -349,15 +356,16 @@
 	size_hint: None, None
 	size: 400, 200
 	title: "Seleccione el tipo de fuente"
-	separator_color: 0, 1, 0, 1 #hex('#2ECC71')
+	separator_color: hex('#740233')
 	BoxLayout
-		pading: 10
+		spacing: 2
 		size: self.parent.size
 		pos : self.parent.pos
 		orientation: "horizontal"
 	
 		Button:
-			background_color: 0, 1, 0, 1 #hex('#2ECC71')
+			pading: 10
+			background_color: hex('#cd035a')
 			text: "Estrella"
 			font_size: 32
 			size: self.parent.size
@@ -367,7 +375,8 @@
 				app.appLayout.setTipoFuente('Estrella')
 		
 		Button:
-			background_color: 0, 1, 0, 1 #hex('#2ECC71')
+			pading: 300
+			background_color: hex('#cd035a')
 			text: "Delta"
 			font_size: 32
 			size: self.parent.size
@@ -387,7 +396,7 @@
 	size_hint: None, None
 	size: 400, 200
 	title: "Seleccione el tipo de carga"
-	separator_color: 0, 1, 0, 1 #hex('#2ECC71')
+	separator_color: hex('#740233')
 	BoxLayout:
 		orientation: "vertical"
 		size: self.parent.size
@@ -397,7 +406,7 @@
 			orientation: "horizontal"
 			CheckBox:
 				id: trifasicaSelected
-				color: 0, 1, 0, 1 #hex('#2ECC71')
+				color: 1, 1, 1, 1 #hex('#2ECC71')
 				group: "tipoCarga"
 				size_hint_x: .05
 				active: True
@@ -411,7 +420,7 @@
 			orientation: "horizontal"
 			CheckBox:
 				id: monofaseSelected
-				color: 0, 1, 0, 1 #hex('#2ECC71')
+				color: 1, 1, 1, 1 #hex('#2ECC71')
 				group: "tipoCarga"
 				size_hint_x: .05
 				active: False
@@ -425,7 +434,7 @@
 			orientation: "horizontal"
 			CheckBox:
 				id: motorSelected
-				color: 0, 1, 0, 1 #hex('#2ECC71')
+				color: 1, 1, 1, 1 #hex('#2ECC71')
 				group: "tipoCarga"
 				size_hint_x: .05
 				active: False
@@ -439,13 +448,13 @@
 			orientation: "horizontal"
 
 			Button:
-				background_color: 0, 1, 0, 1 #hex('#2ECC71')
+				background_color: hex('#cd035a')
 				text: "Cancelar"
 				on_press:
 					root.dismiss()
 
 			Button:
-				background_color: 0, 1, 0, 1 #hex('#2ECC71')
+				background_color: hex('#cd035a')
 				text: "Aceptar"
 				on_press:
 					root.dismiss()
@@ -453,150 +462,1354 @@
 
 <GetCargaMonofase>
 	size_hint: None, None
-	size: 400, 200
-	title: "Seleccione el tipo de carga"
-	separator_color: 0, 1, 0, 1 #hex('#2ECC71')
+	size: 400, 380
+	title: "Agregar carga monofasica"
+	separator_color: hex('#740233')
 	BoxLayout:
 		orientation: "vertical"
-		
+		size: self.parent.size
+		pos : self.parent.pos
+
 		BoxLayout:
-			size_hint_x: 1
+			#size_hint_y: .1
+			size_hint_x: .5
+
+			Label:
+				text: "Cantidad de cargas:"
+
+			TextInput:
+				size_hint_x: .2
+				id: cantidadCargas
+				text: "1"
+				input_filter: "float"
+				write_tab: False
+
+		BoxLayout:
+			#size_hint_x: .9
+			#size_hint_y: .1
 			orientation: "horizontal"
 			
 			Label:
 				text: "Seleccione en cuales fases esta conectada esta carga"
-				size_hint_x: 1
-		
+				#size_hint_x: 1
+
 		BoxLayout:
+			#size_hint_y: .1
 			orientation: "horizontal"
 			size: self.parent.size
 			pos : self.parent.pos
+
 			BoxLayout:
-				size_hint_x: .5
+				#size_hint_x: .5
 				orientation: "horizontal"
 				CheckBox:
 					id: a1Selected
-					color: 0, 1, 0, 1 #hex('#2ECC71')
+					color: 1, 1, 1, 1 #0, 1, 0, 1 #hex('#2ECC71')
 					group: "fase1"
-					size_hint_x: .05
+					#size_hint_x: .05
 					active: True
 
 				textoTiposDeFuente:
 					text: "A"
-					size_hint_x: .15
+					#size_hint_x: .15
 			BoxLayout:
-				size_hint_x: .5
+				#size_hint_x: .5
 				orientation: "horizontal"
 				CheckBox:
 					id: b1Selected
-					color: 0, 1, 0, 1 #hex('#2ECC71')
+					color: 1, 1, 1, 1 #0, 1, 0, 1 #hex('#2ECC71')
 					group: "fase1"
-					size_hint_x: .05
+					#size_hint_x: .05
 					active: False
 
 				textoTiposDeFuente:
 					text: "B"
-					size_hint_x: .15
+					#size_hint_x: .15
 
 			BoxLayout:
-				size_hint_x: .5
+				#size_hint_x: .5
 				orientation: "horizontal"
 				CheckBox:
 					id: c1Selected
-					color: 0, 1, 0, 1 #hex('#2ECC71')
+					color: 1, 1, 1, 1 #hex('#2ECC71')
 					group: "fase1"
-					size_hint_x: .05
+					#size_hint_x: .05
 					active: False
 
 				textoTiposDeFuente:
 					text: "C"
-					size_hint_x: .15
+					#size_hint_x: .15
 
 			BoxLayout:
-				size_hint_x: .5
+				#size_hint_x: .5
 				orientation: "horizontal"
 				CheckBox:
 					id: n1Selected
-					color: 0, 1, 0, 1 #hex('#2ECC71')
+					color: 1, 1, 1, 1 #hex('#2ECC71')
 					group: "fase1"
-					size_hint_x: .05
+					#size_hint_x: .05
 					active: False
 
 				textoTiposDeFuente:
 					text: "N"
-					size_hint_x: .15
+					#size_hint_x: .15
 
 		BoxLayout:
+			#size_hint_y: .1
 			orientation: "horizontal"
 			size: self.parent.size
 			pos : self.parent.pos
+			
 			BoxLayout:
-				size_hint_x: .5
+				#size_hint_x: .5
 				orientation: "horizontal"
 				CheckBox:
 					id: a2Selected
-					color: 0, 1, 0, 1 #hex('#2ECC71')
+					color: 1, 1, 1, 1 #hex('#2ECC71')
 					group: "fase2"
-					size_hint_x: .05
+					#size_hint_x: .05
 					active: False
 
 				textoTiposDeFuente:
 					text: "A"
-					size_hint_x: .15
+					#size_hint_x: .15
 			BoxLayout:
-				size_hint_x: .5
+				#size_hint_x: .5
 				orientation: "horizontal"
 				CheckBox:
 					id: b2Selected
-					color: 0, 1, 0, 1 #hex('#2ECC71')
+					color: 1, 1, 1, 1 #hex('#2ECC71')
 					group: "fase2"
-					size_hint_x: .05
+					#size_hint_x: .05
 					active: True
 
 				textoTiposDeFuente:
 					text: "B"
-					size_hint_x: .15
+					#size_hint_x: .15
 
 			BoxLayout:
-				size_hint_x: .5
+				#size_hint_x: .5
 				orientation: "horizontal"
 				CheckBox:
 					id: c2Selected
-					color: 0, 1, 0, 1 #hex('#2ECC71')
+					color: 1, 1, 1, 1 #hex('#2ECC71')
 					group: "fase2"
-					size_hint_x: .05
+					#size_hint_x: .05
 					active: False
 
 				textoTiposDeFuente:
 					text: "C"
-					size_hint_x: .15
+					#size_hint_x: .15
 
 			BoxLayout:
-				size_hint_x: .5
+				#size_hint_x: .5
 				orientation: "horizontal"
 				CheckBox:
 					id: n2Selected
-					color: 0, 1, 0, 1 #hex('#2ECC71')
+					color: 1, 1, 1, 1 #hex('#2ECC71')
 					group: "fase2"
-					size_hint_x: .05
+					#size_hint_x: .05
 					active: False
 
 				textoTiposDeFuente:
 					text: "N"
-					size_hint_x: .15
+					#size_hint_x: .15
+
+		BoxLayout:
+			orientation: "horizontal"
+			#size_hint_y: .2
+			size_hint_x: .6
+			CheckBox:
+				id: potenciaSelected
+				color: 1, 1, 1, 1 #hex('#2ECC71')
+				group: "potOrZ"
+				size_hint_x: .1
+				active: True
+
+			Label:
+				text: "Potencia y factor de potencia"
+
+		BoxLayout:
+			#size_hint_x: 1
+			padding: 2
+			orientation: "horizontal"
+			
+			TextInput:
+				id: aparenteSelected
+				hint_text: "Aparente (VA)"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not potenciaSelected.active) or (reactivaSelected.text != "" or realSelected.text != "")
+
+			TextInput:
+				id: reactivaSelected
+				hint_text: "Reactiva (VAr)"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not potenciaSelected.active) or (aparenteSelected.text != "" or realSelected.text != "")
+
+			TextInput:
+				id: realSelected
+				hint_text: "Real (W)"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not potenciaSelected.active) or (aparenteSelected.text != "" or reactivaSelected.text != "")
+			
+		BoxLayout:
+			#size_hint_x: 1
+			padding: 2
+			orientation: "horizontal"
+			BoxLayout:
+				size_hint_x: .2
+			TextInput:
+				size_hint_x: .4
+				id: fpSelected
+				hint_text: "FP (0-1)"
+				input_filter: "float"
+				write_tab: False
+				disabled: not potenciaSelected.active
+			BoxLayout:
+				size_hint_x: .1
+			BoxLayout:
+				orientation: "horizontal"
+				size_hint_x: .45
+				CheckBox:
+					id: adelantoSelected
+					
+					color: 1, 1, 1, 1 #hex('#2ECC71')
+					group: "atrazoOrAdelanto"
+					size_hint_x: .2
+					active: True
+
+				Label:
+					text: "Adelanto"
+
+			BoxLayout:
+				orientation: "horizontal"
+				size_hint_x: .4
+				CheckBox:
+					id: atrasoSelected
+					color: 1, 1, 1, 1 #hex('#2ECC71')
+					group: "atrazoOrAdelanto"
+					size_hint_x: .1
+					active: False
+
+				Label:
+					text: "Atraso"
+
+		BoxLayout:
+			orientation: "horizontal"
+			size_hint_x: .28
+			CheckBox:
+				id: zSelected
+				color: 1, 1, 1, 1 #hex('#2ECC71')
+				group: "potOrZ"
+				size_hint_x: .3
+				active: False
+
+			Label:
+				text: "Impedancia"
+				#size_hint_x: .15
+
+		BoxLayout:
+			#size_hint_x: 1
+			#size_hint_y: .1
+			#padding: 2
+			orientation: "horizontal"
+			BoxLayout:
+				size_hint_x: .3
+			TextInput:
+				id: realzSelected
+				hint_text: "Real"
+				input_filter: "float"
+				write_tab: False
+				disabled: not zSelected.active
+
+			TextInput:
+				id: complejoSelected
+				hint_text: "Complejo (j)"
+				input_filter: "float"
+				write_tab: False
+				disabled: not zSelected.active
+
+			BoxLayout:
+				size_hint_x: .3
+
+
+		BoxLayout:
+			#size_hint_y: .1
+			orientation: "horizontal"
+
+			Button:
+				background_color: hex('#cd035a') #0, 1, 0, 1 #hex('#2ECC71')
+				text: "Cancelar"
+				on_press:
+					root.dismiss()
+
+			Button:
+				background_color: hex('#cd035a') #0, 1, 0, 1 #hex('#2ECC71')
+				text: "Aceptar"
+				on_press:
+					root.dismiss()
+					#app.appLayout.setVoltajeAB(ABC.state, PolSelected.state, vMagnitud.text, vAngulo.text, vReal.text, vComplejo.text)
+
+<GetCargaMotorMonofase>
+	size_hint: None, None
+	size: 400, 380
+	title: "Agregar motor monofasico"
+	separator_color: hex('#740233')
+	BoxLayout:
+		orientation: "vertical"
+		size: self.parent.size
+		pos : self.parent.pos
+
+		BoxLayout:
+			#size_hint_y: .1
+			size_hint_x: .5
+
+			Label:
+				text: "Cantidad de motores:"
+
+			TextInput:
+				size_hint_x: .2
+				id: cantidadMotores
+				text: "1"
+				input_filter: "float"
+				write_tab: False
+
+		BoxLayout:
+			#size_hint_x: .9
+			#size_hint_y: .1
+			orientation: "horizontal"
+			
+			Label:
+				text: "Seleccione en cuales fases esta conectado este motor"
+				#size_hint_x: 1
+
+		BoxLayout:
+			#size_hint_y: .1
+			orientation: "horizontal"
+			size: self.parent.size
+			pos : self.parent.pos
+
+			BoxLayout:
+				#size_hint_x: .5
+				orientation: "horizontal"
+				CheckBox:
+					id: a1Selected
+					color: 1, 1, 1, 1 #0, 1, 0, 1 #hex('#2ECC71')
+					group: "fase1"
+					#size_hint_x: .05
+					active: True
+					disabled: a2Selected.active
+
+				textoTiposDeFuente:
+					text: "A"
+					#size_hint_x: .15
+			BoxLayout:
+				#size_hint_x: .5
+				orientation: "horizontal"
+				CheckBox:
+					id: b1Selected
+					color: 1, 1, 1, 1 #0, 1, 0, 1 #hex('#2ECC71')
+					group: "fase1"
+					#size_hint_x: .05
+					active: False
+					disabled: b2Selected.active
+
+				textoTiposDeFuente:
+					text: "B"
+					#size_hint_x: .15
+
+			BoxLayout:
+				#size_hint_x: .5
+				orientation: "horizontal"
+				CheckBox:
+					id: c1Selected
+					color: 1, 1, 1, 1 #hex('#2ECC71')
+					group: "fase1"
+					#size_hint_x: .05
+					active: False
+					disabled: c2Selected.active
+
+				textoTiposDeFuente:
+					text: "C"
+					#size_hint_x: .15
+
+			BoxLayout:
+				#size_hint_x: .5
+				orientation: "horizontal"
+				CheckBox:
+					id: n1Selected
+					color: 1, 1, 1, 1 #hex('#2ECC71')
+					group: "fase1"
+					#size_hint_x: .05
+					active: False
+					disabled: n2Selected.active
+
+				textoTiposDeFuente:
+					text: "N"
+					#size_hint_x: .15
+
+		BoxLayout:
+			#size_hint_y: .1
+			orientation: "horizontal"
+			size: self.parent.size
+			pos : self.parent.pos
+			
+			BoxLayout:
+				#size_hint_x: .5
+				orientation: "horizontal"
+				CheckBox:
+					id: a2Selected
+					color: 1, 1, 1, 1 #hex('#2ECC71')
+					group: "fase2"
+					#size_hint_x: .05
+					active: False
+					disabled: a1Selected.active
+
+				textoTiposDeFuente:
+					text: "A"
+					#size_hint_x: .15
+			BoxLayout:
+				#size_hint_x: .5
+				orientation: "horizontal"
+				CheckBox:
+					id: b2Selected
+					color: 1, 1, 1, 1 #hex('#2ECC71')
+					group: "fase2"
+					#size_hint_x: .05
+					active: True
+					disabled: b1Selected.active
+
+				textoTiposDeFuente:
+					text: "B"
+					#size_hint_x: .15
+
+			BoxLayout:
+				#size_hint_x: .5
+				orientation: "horizontal"
+				CheckBox:
+					id: c2Selected
+					color: 1, 1, 1, 1 #hex('#2ECC71')
+					group: "fase2"
+					#size_hint_x: .05
+					active: False
+					disabled: c1Selected.active
+
+				textoTiposDeFuente:
+					text: "C"
+					#size_hint_x: .15
+
+			BoxLayout:
+				#size_hint_x: .5
+				orientation: "horizontal"
+				CheckBox:
+					id: n2Selected
+					color: 1, 1, 1, 1 #hex('#2ECC71')
+					group: "fase2"
+					#size_hint_x: .05
+					active: False
+
+				textoTiposDeFuente:
+					text: "N"
+					#size_hint_x: .15
+					disabled: n1Selected.active
+
+		BoxLayout:
+			orientation: "horizontal"
+			#size_hint_y: .2
+			size_hint_x: .25
+			CheckBox:
+				id: potenciaMotorSelected
+				color: 1, 1, 1, 1 #hex('#2ECC71')
+				group: "potOrZ"
+				size_hint_x: .15
+				active: True
+
+			Label:
+				text: "Potencia"
+
+		BoxLayout:
+			#size_hint_x: 1
+			padding: 2
+			orientation: "horizontal"
+			
+			TextInput:
+				id: aparenteMotorSelected
+				hint_text: "Aparente (VA)"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not potenciaMotorSelected.active) or (reactivaMotorSelected.text != "" or realMotorSelected.text != "")
+
+			TextInput:
+				id: reactivaMotorSelected
+				hint_text: "Reactiva (VAr)"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not potenciaMotorSelected.active) or (aparenteMotorSelected.text != "" or realMotorSelected.text != "")
+
+			TextInput:
+				id: realMotorSelected
+				hint_text: "Real (W)"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not potenciaMotorSelected.active) or (aparenteMotorSelected.text != "" or reactivaMotorSelected.text != "")
+			
+		BoxLayout:
+			#size_hint_x: 1
+			padding: 2
+			orientation: "horizontal"
+			BoxLayout:
+				size_hint_x: .2
+			TextInput:
+				size_hint_x: .4
+				id: fpMotorSelected
+				hint_text: "FP (0-1)"
+				input_filter: "float"
+				write_tab: False
+				#disabled: not potenciaSelected.active
+			BoxLayout:
+				size_hint_x: .1
+			BoxLayout:
+				orientation: "horizontal"
+				size_hint_x: .45
+				CheckBox:
+					id: adelantoMotorSelected
+					
+					color: 1, 1, 1, 1 #hex('#2ECC71')
+					group: "atrazoOrAdelanto"
+					size_hint_x: .2
+					active: True
+
+				Label:
+					text: "Adelanto"
+
+			BoxLayout:
+				orientation: "horizontal"
+				size_hint_x: .4
+				CheckBox:
+					id: atrasoMotorSelected
+					color: 1, 1, 1, 1 #hex('#2ECC71')
+					group: "atrazoOrAdelanto"
+					size_hint_x: .1
+					active: False
+
+				Label:
+					text: "Atraso"
+
+		BoxLayout:
+			orientation: "horizontal"
+			size_hint_x: .4
+			CheckBox:
+				id: hpSelected
+				color: 1, 1, 1, 1 #hex('#2ECC71')
+				group: "potOrZ"
+				size_hint_x: .1
+				active: False
+
+			Label:
+				text: "Caballos de fuerza"
+				#size_hint_x: .15
+
+		BoxLayout:
+			#size_hint_x: 1
+			#size_hint_y: .1
+			#padding: 2
+			orientation: "horizontal"
+			BoxLayout:
+				size_hint_x: .3
+			TextInput:
+				id: hpValue
+				hint_text: "HPs"
+				input_filter: "float"
+				write_tab: False
+				disabled: not hpSelected.active
+
+			TextInput:
+				id: eficienciaSelected
+				hint_text: "Eficiencia (n)"
+				input_filter: "float"
+				write_tab: False
+				#disabled: not zSelected.active
+
+			BoxLayout:
+				size_hint_x: .3
+
+
+		BoxLayout:
+			#size_hint_y: .1
+			orientation: "horizontal"
+
+			Button:
+				background_color: hex('#cd035a') #0, 1, 0, 1 #hex('#2ECC71')
+				text: "Cancelar"
+				on_press:
+					root.dismiss()
+
+			Button:
+				background_color: hex('#cd035a') #0, 1, 0, 1 #hex('#2ECC71')
+				text: "Aceptar"
+				on_press:
+					root.dismiss()
+					#app.appLayout.setVoltajeAB(ABC.state, PolSelected.state, vMagnitud.text, vAngulo.text, vReal.text, vComplejo.text)
+
+
+<GetCargaMotorTrifase>
+	size_hint: None, None
+	size: 400, 300
+	title: "Agregar motor trifasico"
+	separator_color: hex('#740233')
+	
+	BoxLayout:
+		orientation: "vertical"
+		size: self.parent.size
+		pos : self.parent.pos
+
+		BoxLayout:
+			#size_hint_y: .1
+			size_hint_x: .5
+
+			Label:
+				text: "Cantidad de motores:"
+
+			TextInput:
+				size_hint_x: .2
+				id: cantidadMotores3
+				text: "1"
+				input_filter: "float"
+				write_tab: False
+
+		BoxLayout:
+			orientation: "horizontal"
+			#size_hint_y: .2
+			size_hint_x: .25
+			CheckBox:
+				id: potenciaDeltaSelected
+				color: 1, 1, 1, 1 #hex('#2ECC71')
+				group: "potOrZ"
+				size_hint_x: .15
+				active: True
+
+			Label:
+				text: "Potencia"
+
+		BoxLayout:
+			#size_hint_x: 1
+			padding: 2
+			orientation: "horizontal"
+			
+			TextInput:
+				id: aparenteDeltaSelected
+				hint_text: "Aparente (VA)"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not potenciaDeltaSelected.active) or (reactivaDeltaSelected.text != "" or realDeltaSelected.text != "")
+
+			TextInput:
+				id: reactivaDeltaSelected
+				hint_text: "Reactiva (VAr)"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not potenciaDeltaSelected.active) or (aparenteDeltaSelected.text != "" or realDeltaSelected.text != "")
+
+			TextInput:
+				id: realDeltaSelected
+				hint_text: "Real (W)"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not potenciaDeltaSelected.active) or (aparenteDeltaSelected.text != "" or reactivaDeltaSelected.text != "")
+			
+		BoxLayout:
+			#size_hint_x: 1
+			padding: 2
+			orientation: "horizontal"
+			BoxLayout:
+				size_hint_x: .2
+			TextInput:
+				size_hint_x: .4
+				id: fpDeltaSelected
+				hint_text: "FP (0-1)"
+				input_filter: "float"
+				write_tab: False
+				#disabled: not potenciaSelected.active
+			BoxLayout:
+				size_hint_x: .1
+			BoxLayout:
+				orientation: "horizontal"
+				size_hint_x: .45
+				CheckBox:
+					id: adelantoDeltaSelected
+					
+					color: 1, 1, 1, 1 #hex('#2ECC71')
+					group: "atrazoOrAdelanto"
+					size_hint_x: .2
+					active: True
+
+				Label:
+					text: "Adelanto"
+
+			BoxLayout:
+				orientation: "horizontal"
+				size_hint_x: .4
+				CheckBox:
+					id: atrasoDeltaSelected
+					color: 1, 1, 1, 1 #hex('#2ECC71')
+					group: "atrazoOrAdelanto"
+					size_hint_x: .1
+					active: False
+
+				Label:
+					text: "Atraso"
+
+		BoxLayout:
+			orientation: "horizontal"
+			size_hint_x: .4
+			CheckBox:
+				id: hp3Selected
+				color: 1, 1, 1, 1 #hex('#2ECC71')
+				group: "potOrZ"
+				size_hint_x: .1
+				active: False
+
+			Label:
+				text: "Caballos de fuerza"
+				#size_hint_x: .15
+
+		BoxLayout:
+			#size_hint_x: 1
+			#size_hint_y: .1
+			#padding: 2
+			orientation: "horizontal"
+			BoxLayout:
+				size_hint_x: .3
+			TextInput:
+				id: hp3Value
+				hint_text: "HPs"
+				input_filter: "float"
+				write_tab: False
+				disabled: not hp3Selected.active
+
+			TextInput:
+				id: eficiencia3Selected
+				hint_text: "Eficiencia (n)"
+				input_filter: "float"
+				write_tab: False
+				#disabled: not zSelected.active
+
+			BoxLayout:
+				size_hint_x: .3
+
+
+		BoxLayout:
+			#size_hint_y: .1
+			orientation: "horizontal"
+
+			Button:
+				background_color: hex('#cd035a') #0, 1, 0, 1 #hex('#2ECC71')
+				text: "Cancelar"
+				on_press:
+					root.dismiss()
+
+			Button:
+				background_color: hex('#cd035a') #0, 1, 0, 1 #hex('#2ECC71')
+				text: "Aceptar"
+				on_press:
+					root.dismiss()
+					#app.appLayout.setVoltajeAB(ABC.state, PolSelected.state, vMagnitud.text, vAngulo.text, vReal.text, vComplejo.text)
+
+<GetTipoMotor>
+	size_hint: None, None
+	size: 400, 200
+	title: "Seleccione el tipo de motor"
+	separator_color: hex('#740233')
+	BoxLayout:
+		orientation: "vertical"
+		size: self.parent.size
+		pos : self.parent.pos
+		BoxLayout:
+			size_hint_x: .5
+			orientation: "horizontal"
+			CheckBox:
+				id: trifasicoSelected
+				color: 1, 1, 1, 1 #hex('#2ECC71')
+				group: "tipoMotor"
+				size_hint_x: .05
+				active: True
+
+			textoTiposDeFuente:
+				text: "Trifasico"
+				size_hint_x: .15
+
+		BoxLayout:
+			size_hint_x: .5
+			orientation: "horizontal"
+			CheckBox:
+				id: monofasicoSelected
+				color: 1, 1, 1, 1 #hex('#2ECC71')
+				group: "tipoMotor"
+				size_hint_x: .05
+				active: False
+
+			textoTiposDeFuente:
+				text: "Monofasico"
+				size_hint_x: .15
 
 		BoxLayout:
 			size_hint_y: 1
 			orientation: "horizontal"
 
 			Button:
-				background_color: 0, 1, 0, 1 #hex('#2ECC71')
+				background_color: hex('#cd035a')
+				text: "Regresar"
+				on_press:
+					root.dismiss()
+
+			Button:
+				background_color: hex('#cd035a')
+				text: "Aceptar"
+				on_press:
+					root.dismiss()
+					#app.appLayout.setVoltajeAB(ABC.state, PolSelected.state, vMagnitud.text, vAngulo.text, vReal.text, vComplejo.text)
+
+<GetTipoTrifasica>
+	size_hint: None, None
+	size: 400, 200
+	title: "Seleccione el tipo de carga"
+	separator_color: hex('#740233')
+	BoxLayout:
+		orientation: "vertical"
+		size: self.parent.size
+		pos : self.parent.pos
+		BoxLayout:
+			size_hint_x: .5
+			orientation: "horizontal"
+			CheckBox:
+				id: estrellaSelected
+				color: 1, 1, 1, 1 #hex('#2ECC71')
+				group: "tipoTrifasico"
+				size_hint_x: .05
+				active: True
+
+			textoTiposDeFuente:
+				text: "Estrella"
+				size_hint_x: .15
+
+		BoxLayout:
+			size_hint_x: .5
+			orientation: "horizontal"
+			CheckBox:
+				id: deltaSelected
+				color: 1, 1, 1, 1 #hex('#2ECC71')
+				group: "tipoTrifasico"
+				size_hint_x: .05
+				active: False
+
+			textoTiposDeFuente:
+				text: "Delta"
+				size_hint_x: .15
+
+		BoxLayout:
+			size_hint_y: 1
+			orientation: "horizontal"
+
+			Button:
+				background_color: hex('#cd035a')
+				text: "Regresar"
+				on_press:
+					root.dismiss()
+
+			Button:
+				background_color: hex('#cd035a')
+				text: "Aceptar"
+				on_press:
+					root.dismiss()
+					#app.appLayout.setVoltajeAB(ABC.state, PolSelected.state, vMagnitud.text, vAngulo.text, vReal.text, vComplejo.text)
+
+<GetCargaDelta>
+	size_hint: None, None
+	size: 400, 350
+	title: "Agregar carga delta"
+	separator_color: hex('#740233')
+	
+	BoxLayout:
+		orientation: "vertical"
+		size: self.parent.size
+		pos : self.parent.pos
+
+		BoxLayout:
+			orientation: "horizontal"
+			#size_hint_y: .2
+			size_hint_x: .25
+			CheckBox:
+				id: pDeltaSelected
+				color: 1, 1, 1, 1 #hex('#2ECC71')
+				group: "pOzDelta"
+				size_hint_x: .15
+				active: True
+
+			Label:
+				text: "Potencia"
+
+		BoxLayout:
+			#size_hint_x: 1
+			padding: 2
+			orientation: "horizontal"
+			
+			TextInput:
+				id: aparenteDeltaSelected
+				hint_text: "Aparente (VA)"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not pDeltaSelected.active) or (reactivaDeltaSelected.text != "" or realDeltaSelected.text != "")
+
+			TextInput:
+				id: reactivaDeltaSelected
+				hint_text: "Reactiva (VAr)"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not pDeltaSelected.active) or (aparenteDeltaSelected.text != "" or realDeltaSelected.text != "")
+
+			TextInput:
+				id: realDeltaSelected
+				hint_text: "Real (W)"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not pDeltaSelected.active) or (aparenteDeltaSelected.text != "" or reactivaDeltaSelected.text != "")
+			
+		BoxLayout:
+			#size_hint_x: 1
+			padding: 2
+			orientation: "horizontal"
+			BoxLayout:
+				size_hint_x: .2
+			TextInput:
+				size_hint_x: .4
+				id: fpDeltaSelected
+				hint_text: "FP (0-1)"
+				input_filter: "float"
+				write_tab: False
+				disabled: not pDeltaSelected.active
+			BoxLayout:
+				size_hint_x: .1
+			BoxLayout:
+				orientation: "horizontal"
+				size_hint_x: .45
+				CheckBox:
+					id: adelantoDeltaSelected
+					
+					color: 1, 1, 1, 1 #hex('#2ECC71')
+					group: "atrazoOrAdelanto"
+					size_hint_x: .2
+					active: True
+					disabled: not pDeltaSelected.active
+				Label:
+					text: "Adelanto"
+
+			BoxLayout:
+				orientation: "horizontal"
+				size_hint_x: .4
+				CheckBox:
+					id: atrasoDeltaSelected
+					color: 1, 1, 1, 1 #hex('#2ECC71')
+					group: "atrazoOrAdelanto"
+					size_hint_x: .1
+					active: False
+					disabled: not pDeltaSelected.active
+				Label:
+					text: "Atraso"
+
+		BoxLayout:
+			orientation: "horizontal"
+			size_hint_x: .3
+			CheckBox:
+				id: zDeltaSelected
+				color: 1, 1, 1, 1 #hex('#2ECC71')
+				group: "pOzDelta"
+				size_hint_x: .1
+				active: False
+
+			Label:
+				text: "Impedancia"
+				#size_hint_x: .15
+
+		BoxLayout:
+			orientation: "horizontal"
+			#size_hint_x: .
+			BoxLayout:
+				size_hint_x: .3
+			CheckBox:
+				id: bDeltaSelected
+				color: 1, 1, 1, 1 #hex('#2ECC71')
+				group: "bOdDelta"
+				size_hint_x: .1
+				active: True
+				disabled: not zDeltaSelected.active
+
+			Label:
+				text: "Balanceada"
+				#size_hint_x: .15
+
+			CheckBox:
+				id: dDeltaSelected
+				color: 1, 1, 1, 1 #hex('#2ECC71')
+				group: "bOdDelta"
+				size_hint_x: .1
+				active: False
+				disabled: not zDeltaSelected.active
+
+			Label:
+				text: "Desbalanceada"
+				#size_hint_x: .15
+			BoxLayout:
+				size_hint_x: .3
+
+		BoxLayout:
+			#size_hint_x: 1
+			#size_hint_y: .1
+			#padding: 2
+			orientation: "horizontal"
+			BoxLayout:
+				size_hint_x: .3
+			TextInput:
+				id: realAB
+				hint_text: "Real AB"
+				input_filter: "float"
+				write_tab: False
+				disabled: not zDeltaSelected.active
+
+			TextInput:
+				id: complejoAB
+				hint_text: "Complejo AB (j)"
+				input_filter: "float"
+				write_tab: False
+				disabled: not zDeltaSelected.active
+
+			BoxLayout:
+				size_hint_x: .3
+
+		BoxLayout:
+			#size_hint_x: 1
+			#size_hint_y: .1
+			#padding: 2
+			orientation: "horizontal"
+			BoxLayout:
+				size_hint_x: .3
+			TextInput:
+				id: realBC
+				hint_text: "Real BC"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not zDeltaSelected.active) or (bDeltaSelected.active)
+
+			TextInput:
+				id: complejoBC
+				hint_text: "Complejo BC (j)"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not zDeltaSelected.active) or (bDeltaSelected.active)
+
+			BoxLayout:
+				size_hint_x: .3
+
+		BoxLayout:
+			#size_hint_x: 1
+			#size_hint_y: .1
+			#padding: 2
+			orientation: "horizontal"
+			BoxLayout:
+				size_hint_x: .3
+			TextInput:
+				id: realCA
+				hint_text: "Real CA"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not zDeltaSelected.active) or (bDeltaSelected.active)
+
+			TextInput:
+				id: complejoCA
+				hint_text: "Complejo CA (j)"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not zDeltaSelected.active) or (bDeltaSelected.active)
+
+			BoxLayout:
+				size_hint_x: .3
+
+		BoxLayout:
+			#size_hint_y: .1
+			orientation: "horizontal"
+
+			Button:
+				background_color: hex('#cd035a') #0, 1, 0, 1 #hex('#2ECC71')
 				text: "Cancelar"
 				on_press:
 					root.dismiss()
 
 			Button:
-				background_color: 0, 1, 0, 1 #hex('#2ECC71')
+				background_color: hex('#cd035a') #0, 1, 0, 1 #hex('#2ECC71')
+				text: "Aceptar"
+				on_press:
+					root.dismiss()
+					#app.appLayout.setVoltajeAB(ABC.state, PolSelected.state, vMagnitud.text, vAngulo.text, vReal.text, vComplejo.text)
+
+<GetCargaEstrella>
+	size_hint: None, None
+	size: 400, 350
+	title: "Agregar carga estrella"
+	separator_color: hex('#740233')
+	
+	BoxLayout:
+		orientation: "vertical"
+		size: self.parent.size
+		pos : self.parent.pos
+
+		BoxLayout:
+			orientation: "horizontal"
+			#size_hint_y: .2
+			size_hint_x: .25
+			CheckBox:
+				id: pEstrellaSelected
+				color: 1, 1, 1, 1 #hex('#2ECC71')
+				group: "pOzEstrella"
+				size_hint_x: .15
+				active: True
+
+			Label:
+				text: "Potencia"
+
+		BoxLayout:
+			#size_hint_x: 1
+			padding: 2
+			orientation: "horizontal"
+			
+			TextInput:
+				id: aparenteEstrellaSelected
+				hint_text: "Aparente (VA)"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not pEstrellaSelected.active) or (reactivaEstrellaSelected.text != "" or realEstrellaSelected.text != "")
+
+			TextInput:
+				id: reactivaEstrellaSelected
+				hint_text: "Reactiva (VAr)"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not pEstrellaSelected.active) or (aparenteEstrellaSelected.text != "" or realEstrellaSelected.text != "")
+
+			TextInput:
+				id: realEstrellaSelected
+				hint_text: "Real (W)"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not pEstrellaSelected.active) or (aparenteEstrellaSelected.text != "" or reactivaEstrellaSelected.text != "")
+			
+		BoxLayout:
+			#size_hint_x: 1
+			padding: 2
+			orientation: "horizontal"
+			BoxLayout:
+				size_hint_x: .2
+			TextInput:
+				size_hint_x: .4
+				id: fpEstrellaSelected
+				hint_text: "FP (0-1)"
+				input_filter: "float"
+				write_tab: False
+				disabled: not pEstrellaSelected.active
+			BoxLayout:
+				size_hint_x: .1
+			BoxLayout:
+				orientation: "horizontal"
+				size_hint_x: .45
+				CheckBox:
+					id: adelantoEstrellaSelected
+					
+					color: 1, 1, 1, 1 #hex('#2ECC71')
+					group: "atrazoOrAdelanto"
+					size_hint_x: .2
+					active: True
+					disabled: not pEstrellaSelected.active
+				Label:
+					text: "Adelanto"
+
+			BoxLayout:
+				orientation: "horizontal"
+				size_hint_x: .4
+				CheckBox:
+					id: atrasoEstrellaSelected
+					color: 1, 1, 1, 1 #hex('#2ECC71')
+					group: "atrazoOrAdelanto"
+					size_hint_x: .1
+					active: False
+					disabled: not pEstrellaSelected.active
+				Label:
+					text: "Atraso"
+
+		BoxLayout:
+			orientation: "horizontal"
+			size_hint_x: 1
+			CheckBox:
+				id: zEstrellaSelected
+				color: 1, 1, 1, 1 #hex('#2ECC71')
+				group: "pOzEstrella"
+				size_hint_x: .1
+				active: False
+
+			Label:
+				text: "Impedancia"
+				#size_hint_x: .15
+
+			BoxLayout:
+				orientation: "horizontal"
+				size_hint_x: .8
+
+				Label:
+					text: "Neutro?"
+
+				CheckBox:
+					id: siNeutroSelected
+					color: 1, 1, 1, 1 #hex('#2ECC71')
+					group: "neutroEstrella"
+					size_hint_x: .1
+					active: True
+					#disabled: not zEstrellaSelected.active
+
+				Label:
+					text: "Si"
+					#size_hint_x: .15
+
+				CheckBox:
+					id: noNeutroSelected
+					color: 1, 1, 1, 1 #hex('#2ECC71')
+					group: "neutroEstrella"
+					size_hint_x: .1
+					active: False
+					#disabled: not zEstrellaSelected.active
+
+				Label:
+					text: "No"
+					#size_hint_x: .15
+				BoxLayout:
+					size_hint_x: .3
+
+
+
+		BoxLayout:
+			orientation: "horizontal"
+			#size_hint_x: .
+			BoxLayout:
+				size_hint_x: .3
+			CheckBox:
+				id: bEstrellaSelected
+				color: 1, 1, 1, 1 #hex('#2ECC71')
+				group: "bOdEstrella"
+				size_hint_x: .1
+				active: True
+				disabled: not zEstrellaSelected.active
+
+			Label:
+				text: "Balanceada"
+				#size_hint_x: .15
+
+			CheckBox:
+				id: dEstrellaSelected
+				color: 1, 1, 1, 1 #hex('#2ECC71')
+				group: "bOdEstrella"
+				size_hint_x: .1
+				active: False
+				disabled: not zEstrellaSelected.active
+
+			Label:
+				text: "Desbalanceada"
+				#size_hint_x: .15
+			BoxLayout:
+				size_hint_x: .3
+
+		BoxLayout:
+			#size_hint_x: 1
+			#size_hint_y: .1
+			#padding: 2
+			orientation: "horizontal"
+			BoxLayout:
+				size_hint_x: .3
+			TextInput:
+				id: realAn
+				hint_text: "Real An"
+				input_filter: "float"
+				write_tab: False
+				disabled: not zEstrellaSelected.active
+
+			TextInput:
+				id: complejoAn
+				hint_text: "Complejo An (j)"
+				input_filter: "float"
+				write_tab: False
+				disabled: not zEstrellaSelected.active
+
+			BoxLayout:
+				size_hint_x: .3
+
+		BoxLayout:
+			#size_hint_x: 1
+			#size_hint_y: .1
+			#padding: 2
+			orientation: "horizontal"
+			BoxLayout:
+				size_hint_x: .3
+			TextInput:
+				id: realBn
+				hint_text: "Real Bn"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not zEstrellaSelected.active) or (bEstrellaSelected.active)
+
+			TextInput:
+				id: complejoBn
+				hint_text: "Complejo Bn (j)"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not zEstrellaSelected.active) or (bEstrellaSelected.active)
+
+			BoxLayout:
+				size_hint_x: .3
+
+		BoxLayout:
+			#size_hint_x: 1
+			#size_hint_y: .1
+			#padding: 2
+			orientation: "horizontal"
+			BoxLayout:
+				size_hint_x: .3
+			TextInput:
+				id: realCn
+				hint_text: "Real Cn"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not zEstrellaSelected.active) or (bEstrellaSelected.active)
+
+			TextInput:
+				id: complejoCn
+				hint_text: "Complejo Cn (j)"
+				input_filter: "float"
+				write_tab: False
+				disabled: (not zEstrellaSelected.active) or (bEstrellaSelected.active)
+
+			BoxLayout:
+				size_hint_x: .3
+
+		BoxLayout:
+			#size_hint_y: .1
+			orientation: "horizontal"
+
+			Button:
+				background_color: hex('#cd035a') #0, 1, 0, 1 #hex('#2ECC71')
+				text: "Cancelar"
+				on_press:
+					root.dismiss()
+
+			Button:
+				background_color: hex('#cd035a') #0, 1, 0, 1 #hex('#2ECC71')
 				text: "Aceptar"
 				on_press:
 					root.dismiss()
