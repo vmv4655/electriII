@@ -261,35 +261,36 @@ class AppLayout(FloatLayout):
 					pAparente = float(pAparente)
 					if(adelantoActive):
 						cargaMonofasica.setDatosMonofase(None, None, pAparente, fp, "Adelanto", cantidad, None)
-					
+						dataCarga = "x%d Cargas monofasicas agregadas, FP: %s en %s, potencia: %s VA, lineas: %s" %(cantidad, fp, "adelanto", pAparente, conexion)
 					elif(atrasoActive):
 						cargaMonofasica.setDatosMonofase(None, None, pAparente, fp, "Atraso", cantidad, None)
-					
+						dataCarga = "x%d Cargas monofasicas agregadas, FP: %s en %s, potencia: %s VA, lineas: %s" %(cantidad, fp, "atraso", pAparente, conexion)
 					else:
 						print('error')
-					#dataCarga = "Cargas monofasicas x %s\n, fp %s\n, %s\n VA " %(10, fp, pAparente)
+					
 				elif(pReactiva != ""):
 					pReactiva = float(pReactiva)
 					if(adelantoActive):
 						cargaMonofasica.setDatosMonofase(None, pReactiva, None, fp, "Adelanto", cantidad, None)
-					
+						dataCarga = "x%d Cargas monofasicas agregadas, FP: %s en %s, potencia: %s VAr, lineas: %s" %(cantidad, fp, "adelanto", pReactiva, conexion)
 					elif(atrasoActive):
 						cargaMonofasica.setDatosMonofase(None, pReactiva, None, fp, "Atraso", cantidad, None)
+						dataCarga = "x%d Cargas monofasicas agregadas, FP: %s en %s, potencia: %s VAr, lineas: %s" %(cantidad, fp, "atraso", pReactiva, conexion)
 					else:
 						print('error')
-
+					
 				elif(pReal != ""):
 					pReal = float(pReal)
 					if(adelantoActive):
 						cargaMonofasica.setDatosMonofase(pReal, None, None, fp, "Adelanto", cantidad, None)
-					
+						dataCarga = "x%d Cargas monofasicas agregadas, FP: %s en %s, potencia: %s W, lineas: %s" %(cantidad, fp, "adelanto", pReal, conexion)
 					elif(atrasoActive):
 						cargaMonofasica.setDatosMonofase(pReal, None, None, fp, "Atraso", cantidad, None)
+						dataCarga = "x%d Cargas monofasicas agregadas, FP: %s en %s, potencia: %s W, lineas: %s" %(cantidad, fp, "atraso", pReal, conexion)
 
 					else:
 						print('error')
 				self.listaCargas.append(cargaMonofasica)
-				#dataCarga = "%s\n cargas monofasicas, fp %s\n " %(cantidad, fp)
 				self.updateCorrientesPantalla()
 				print(self.listaCargas)
 					
@@ -301,6 +302,7 @@ class AppLayout(FloatLayout):
 			if(zReal != "" and zComplejo != ""):
 				z = complex(float(zReal), float(zComplejo))
 				cargaMonofasica.setDatosMonofase(None, None, None, None, None, cantidad, z)
+				dataCarga = "x%d Cargas monofasicas agregadas, Z: %s, lineas: %s" %(cantidad, z, conexion)
 				self.listaCargas.append(cargaMonofasica)
 				self.updateCorrientesPantalla()
 				print(self.listaCargas)
@@ -309,7 +311,7 @@ class AppLayout(FloatLayout):
 
 		else:
 			print('ERROR DEBE SELECICONAR ALGUNO')
-		self.displaylistaCargas.adapter.data.extend(["Carga monofasica agregada"])
+		self.displaylistaCargas.adapter.data.extend([dataCarga])#["Carga monofasica agregada"])
 		print(cargaMonofasica.getIL())
 
 	#def addMotorMonofase(self, cantidad, a1Selected, a2Selected, b1Selected, b2Selected, c1Selected, c2Selected, n1Selected, n2Selected, potenciaActive, HpActive, pAparente, pReactiva, pReal, fp, adelantoActive, atrasoActive, Hps, n):
@@ -403,6 +405,7 @@ class AppLayout(FloatLayout):
 				print('ERROR')
 
 			self.listaCargas.append(motorMonofase)
+			dataCarga = "x%d Motores monofasicos agregados, %s HP, eficiencia: %s, lineas: %s" %(cantidad, Hps, n, conexion)
 			self.updateCorrientesPantalla()
 			print(self.listaCargas)
 
@@ -410,7 +413,7 @@ class AppLayout(FloatLayout):
 			print('ERROR DEBE SELECICONAR ALGUNO')
 
 		print(motorMonofase.getIL())
-		self.displaylistaCargas.adapter.data.extend(["Motor monofasico agregado"])
+		self.displaylistaCargas.adapter.data.extend([dataCarga])
 
 	def addCargaMotorTrifasico(self, cantidad, fp, Hp, n):
 		print('agregandoCargaMotorTrifasico')
@@ -432,13 +435,14 @@ class AppLayout(FloatLayout):
 			cargaMotorTrifasico.Il_motor(cantidad,Hp,fp,n)
 
 			self.listaCargas.append(cargaMotorTrifasico)
+			dataCarga = "x%d Motores trifasicos agregados, %s HP, FP: %s, eficiencia: %s" %(cantidad, Hp, fp, n)
 			self.updateCorrientesPantalla()
 			print(self.listaCargas)
 
 		else:
 			print('ERROR, NO DATOS')
 
-		self.displaylistaCargas.adapter.data.extend(["Motor trifasico agregado"])
+		self.displaylistaCargas.adapter.data.extend([dataCarga])
 		print(cargaMotorTrifasico.getIA())
 		print(cargaMotorTrifasico.getIB())
 		print(cargaMotorTrifasico.getIC())
@@ -459,20 +463,21 @@ class AppLayout(FloatLayout):
 					pAparente = float(pAparente)
 					if(adelantoActive):
 						cargaDeltaBalanceada.getiDesdePotencia(None, None, pAparente, fp, "Adelanto")
+						dataCarga = "Carga delta balanceada agregada, Potencia: %s VA, FP: %s, en %s" %(pAparente, fp, "adelanto")
 					
 					elif(atrasoActive):
 						cargaDeltaBalanceada.getiDesdePotencia(None, None, pAparente, fp, "Atraso")
-					
+						dataCarga = "Carga delta balanceada agregada, Potencia: %s VA, FP: %s, en %s" %(pAparente, fp, "atraso")
 					else:
 						print('ERROR')
 				elif(pReactiva != ""):
 					pReactiva = float(pReactiva)
 					if(adelantoActive):
 						cargaDeltaBalanceada.getiDesdePotencia(None, pReactiva, None, fp, "Adelanto")
-
+						dataCarga = "Carga delta balanceada agregada, Potencia: %s VAr, FP: %s, en %s" %(pReactiva, fp, "adelanto")
 					elif(atrasoActive):
 						cargaDeltaBalanceada.getiDesdePotencia(None, pReactiva, None, fp, "Atraso")
-					
+						dataCarga = "Carga delta balanceada agregada, Potencia: %s VAr, FP: %s, en %s" %(pReactiva, fp, "atraso")
 					else:
 						print('ERROR')
 
@@ -480,13 +485,13 @@ class AppLayout(FloatLayout):
 					pReal = float(pReal)
 					if(adelantoActive):
 						cargaDeltaBalanceada.getiDesdePotencia(pReal, None, None, fp, "Adelanto")
-					
+						dataCarga = "Carga delta balanceada agregada, Potencia: %s W, FP: %s, en %s" %(pReal, fp, "adelanto")
 					elif(atrasoActive):
-						cargaDeltaBalanceada.getiDesdePotencia(pReal, None, None, fp, "Adelanto")
-
+						cargaDeltaBalanceada.getiDesdePotencia(pReal, None, None, fp, "Atraso")
+						dataCarga = "Carga delta balanceada agregada, Potencia: %s W, FP: %s, en %s" %(pReal, fp, "atraso")
 					else:
 						print('ERROR')
-				self.displaylistaCargas.adapter.data.extend(["Carga delta balanceada agregada"])
+				self.displaylistaCargas.adapter.data.extend([dataCarga])
 				self.listaCargas.append(cargaDeltaBalanceada)
 				self.updateCorrientesPantalla()
 				print(self.listaCargas)
@@ -498,8 +503,8 @@ class AppLayout(FloatLayout):
 				if(zRealAB != "" and zComplejoAB != ""):
 					zAB = complex(float(zRealAB), float(zComplejoAB))
 					cargaDeltaBalanceada.getiDesdeZ(zAB)
-
-					self.displaylistaCargas.adapter.data.extend(["Carga delta balanceada agregada"])
+					dataCarga = "Carga delta balanceada agregada, Z: %s" %(zAB)
+					self.displaylistaCargas.adapter.data.extend([dataCarga])
 					self.listaCargas.append(cargaDeltaBalanceada)
 					self.updateCorrientesPantalla()
 					print(self.listaCargas)
@@ -510,10 +515,10 @@ class AppLayout(FloatLayout):
 					zAB = complex(float(zRealAB), float(zComplejoAB))
 					zBC = complex(float(zRealBC), float(zComplejoBC))
 					zCA = complex(float(zRealCA), float(zComplejoCA))
-
+					dataCarga = "Carga delta desbalanceada agregada, ZAB: %s, ZBC: %s, ZCA: %s" %(zAB, zBC, zCA)
 					cargaDeltaDesbal.corrienteLinea(zAB,zBC,zCA)
 
-					self.displaylistaCargas.adapter.data.extend(["Carga delta desbalanceada agregada"])
+					self.displaylistaCargas.adapter.data.extend([dataCarga])
 					self.listaCargas.append(cargaDeltaDesbal)
 					self.updateCorrientesPantalla()
 					print(self.listaCargas)
@@ -557,25 +562,31 @@ class AppLayout(FloatLayout):
 					pAparente = float(pAparente)
 					if(adelantoActive):
 						cargaEstrellaBalanceada.getiDesdePotencia(None, None, pAparente, fp, "Adelanto")
+						dataCarga = "Carga estrella balanceada agregada, Potencia: %s VA, FP: %s, en %s" %(pAparente, fp, "adelanto")
 					elif(atrasoActive):
 						cargaEstrellaBalanceada.getiDesdePotencia(None, None, pAparente, fp, "Atraso")
+						dataCarga = "Carga estrella balanceada agregada, Potencia: %s VA, FP: %s, en %s" %(pAparente, fp, "atraso")
 				elif(pReactiva != ""):
 					pReactiva = float(pReactiva)
 					if(adelantoActive):
 						cargaEstrellaBalanceada.getiDesdePotencia(None, pReactiva, None, fp, "Adelanto")
+						dataCarga = "Carga estrella balanceada agregada, Potencia: %s VAr, FP: %s, en %s" %(pReactiva, fp, "adelanto")
 					elif(atrasoActive):
 						cargaEstrellaBalanceada.getiDesdePotencia(None, pReactiva, None, fp, "Atraso")
+						dataCarga = "Carga estrella balanceada agregada, Potencia: %s VAr, FP: %s, en %s" %(pReactiva, fp, "atraso")
 
 				elif(pReal != ""):
 					pReal = float(pReal)
 					if(adelantoActive):
 						cargaEstrellaBalanceada.getiDesdePotencia(pReal, None, None, fp, "Adelanto")
+						dataCarga = "Carga estrella balanceada agregada, Potencia: %s W, FP: %s, en %s" %(pReal, fp, "adelanto")
 					elif(atrasoActive):
 						cargaEstrellaBalanceada.getiDesdePotencia(pReal, None, None, fp, "Atraso")
+						dataCarga = "Carga estrella balanceada agregada, Potencia: %s W, FP: %s, en %s" %(pReal, fp, "atraso")
 				else:
 					print('error')
 
-				self.displaylistaCargas.adapter.data.extend(["Carga estrella balanceada agregada"])
+				self.displaylistaCargas.adapter.data.extend([dataCarga])
 				self.listaCargas.append(cargaEstrellaBalanceada)
 				self.updateCorrientesPantalla()
 				print(self.listaCargas)
@@ -589,8 +600,8 @@ class AppLayout(FloatLayout):
 				if(zRealA != "" and zComplejoA != ""):
 					z = complex(float(zRealA), float(zComplejoA))
 					cargaEstrellaBalanceada.getiDesdeZ(z)
-
-					self.displaylistaCargas.adapter.data.extend(["Carga estrella balanceada agregada"])
+					dataCarga = "Carga estrella balanceada agregada, Z: %s" %(z)
+					self.displaylistaCargas.adapter.data.extend([dataCarga])
 					self.listaCargas.append(cargaEstrellaBalanceada)
 					self.updateCorrientesPantalla()
 					print(self.listaCargas)
@@ -607,8 +618,8 @@ class AppLayout(FloatLayout):
 							zBn = complex(float(zRealB), float(zComplejoB))
 							zCn = complex(float(zRealC), float(zComplejoC))
 							cargaEstrellaDesbalFuenteDelta.corrientesLinea(zAn, zBn,zCn)
-
-							self.displaylistaCargas.adapter.data.extend(["Carga estrella desbalanceada agregada"])
+							dataCarga = "Carga estrella desbalanceada agregada, ZAB: %s, ZBC: %s, ZCA %s" %(zAn, zBn, zCn)
+							self.displaylistaCargas.adapter.data.extend([dataCarga])
 							self.listaCargas.append(cargaEstrellaDesbalFuenteDelta)
 							self.updateCorrientesPantalla()
 							print(self.listaCargas)
@@ -622,8 +633,8 @@ class AppLayout(FloatLayout):
 							zBn = complex(float(zRealB), float(zComplejoB))
 							zCn = complex(float(zRealC), float(zComplejoC))
 							cargaEstrellaDesbalConNeutro.corrientesLinea(zAn, zBn,zCn)
-
-							self.displaylistaCargas.adapter.data.extend(["Carga estrella desbalanceada con neutro agregada"])
+							dataCarga = "Carga estrella desbalanceada con neutro agregada, ZAB: %s, ZBC: %s, ZCA %s" %(zAn, zBn, zCn)
+							self.displaylistaCargas.adapter.data.extend([dataCarga])
 							self.listaCargas.append(cargaEstrellaDesbalConNeutro)
 							self.updateCorrientesPantalla()
 							print(self.listaCargas)
@@ -638,8 +649,8 @@ class AppLayout(FloatLayout):
 						zBn = complex(float(zRealB), float(zComplejoB))
 						zCn = complex(float(zRealC), float(zComplejoC))
 						cargaEstrellaDesbalSinNeutro.corrientesLinea(zAn, zBn,zCn)
-
-						self.displaylistaCargas.adapter.data.extend(["Carga estrella desbalanceada con neutro agregada"])
+						dataCarga = "Carga estrella desbalanceada sin neutro agregada, ZAB: %s, ZBC: %s, ZCA %s" %(zAn, zBn, zCn)
+						self.displaylistaCargas.adapter.data.extend([dataCarga])
 						self.listaCargas.append(cargaEstrellaDesbalSinNeutro)
 						self.updateCorrientesPantalla()
 						print(self.listaCargas)
