@@ -684,34 +684,32 @@ class dosVatimetrosactiva(object):
     def dosVatimetrosE(self, Eab, Ebc, Eca, IAl, IBl, ICl, C):#C=punto comun
         LWI=0
         LWII=0
-        if (self.C == str("A")):
-            self.Vab, self.angA  = getPolFromRec(Eab)
-            self.Vca, self.angB  = getPolFromRec(Eca)
-            self.IB, self.angC   = getPolFromRec(IBl)
-            sel.IC, self.angD    = getPolFromRec(ICl)
-            
-            self.LWI  = Vab*IB*math.cos((ang1+180-angC)*math.pi/180)
-            self.LWII = vca*IC*math.cos((ang2-angD)*math.pi/180) 
+        if (C == str("A")):
+               Vab, angA  = getPolFromRec(Eab)
+               Vca, angB  = getPolFromRec(Eca)
+               IB, angC   = getPolFromRec(IBl)
+               IC, angD    = getPolFromRec(ICl)
+               LWI  = Vab*IB*math.cos((ang1+180-angC)*math.pi/180)
+               LWII = vca*IC*math.cos((ang2-angD)*math.pi/180) 
 
-        elif (self.C == str("B")):
-            self.Vab, self.angA = getPolFromRec(Eab)
-            self.Vbc, self.angB = getPolFromRec(Ebc)
-            self.IA, self.angC  = getPolFromRec(IAl)
-            self.IC, self.angD  = getPolFromRec(ICl)
-            
-            self.LWI  = vab*IA*math.cos((angA-angC)*math.pi/180)
-            self.LWII = vbc*IC*math.cos((angB+180-angD)*math.pi/180)
+        elif (C == str("B")):
+               Vab, angA = getPolFromRec(Eab)
+               Vbc, angB = getPolFromRec(Ebc)
+               IA, angC  = getPolFromRec(IAl)
+               IC, angD  = getPolFromRec(ICl)
+               LWI  = vab*IA*math.cos((angA-angC)*math.pi/180)
+               LWII = vbc*IC*math.cos((angB+180-angD)*math.pi/180)
 
-        elif (self.C == str("C")):
-            self.Vca, self.angA = getPolFromRec(Eca)
-            self.Vbc, self.angB = getPolFromRec(Ebc)
-            self.IA, self.angC  = getPolFromRec(IAl)
-            self.IB, self.angD  = getPolFromRec(IBl)
+        elif (C == str("C")):
+            Vca,angA = getPolFromRec(Eca)
+            Vbc,angB = getPolFromRec(Ebc)
+            IA, angC  = getPolFromRec(IAl)
+            IB, angD  = getPolFromRec(IBl)
 
-            self.LWI  = Vca*IA*math.cos((angA+180-angC)*math.pi/180)
-            self.LWII = Vbc*IB*math.cos((angB-angD)*math.pi/180)
+            LWI  = Vca*IA*math.cos((angA+180-angC)*math.pi/180)
+            LWII = Vbc*IB*math.cos((angB-angD)*math.pi/180)
 
-        lectura=LWI+LWII
+        self.lectura=LWI+LWII
     def getPotenciaActiva(self):
         return self.lectura
        
@@ -727,22 +725,20 @@ class tresVatimetrosactiva(object):
         self.Ecn=fuente.getVcn()
 
     
-    def tres_vatimetrosE(self, IA, IB, IC, Ean, Ebn, Ecn):
-        self.EaB, self.angA = getPolFromRec(Ean)
-        self.EbC, self.angB = getPolFromRec(Ebn)
-        self.EcA, self.angC = getPolFromRec(Ecn)
-
-        self.IA, self.angD  = getPolFromRec(IAl)
-        self.IB, self.angE  = getPolFromRec(IBl)
-        self.IC, self.angF  = getPolFromRec(ICl)
-
-        self.LWI      = EaB*IA*cos((angA-angD)*math.pi/180)
-        self.LWII     = EbC*IB*cos((angB-angE)*math.pi/180)
-        self.LWIII    = EcA*IC*cos((angC-angF)*math.pi/180)
-        self.lectura  = LWI+LWII+LWIII
+    def tresvatimetrosE(self, IA, IB, IC, Ean, Ebn, Ecn):
+           EbC ,angB  = getPolFromRec(Ebn)
+           EcA,angC = getPolFromRec(Ecn)
+           EaB,angA = getPolFromRec(Ean)
+           IA, angD  = getPolFromRec(IA)
+           IB, angE  = getPolFromRec(IB)
+           IC, angF  = getPolFromRec(IC)
+           LWI      = EaB*IA*math.cos((angA-angD)*math.pi/180)
+           LWII     = EbC*IB*math.cos((angB-angE)*math.pi/180)
+           LWIII    = EcA*IC*math.cos((angC-angF)*math.pi/180)
+           self.Lectura  = LWI+LWII+LWIII
 
     def getPotenciaActiva(self):
-        return self.lectura
+        return self.Lectura
 
 
 #MEDICION DE POTENCIA RECTIVA#
@@ -760,32 +756,32 @@ class dosVatimetrosreactiva(object):
     def dos_vatimetrosE(self,IAl, IBl, ICl, Eab, Ebc, Eca,C):#C=punto comun
         LWI=0
         LWII=0
-        if (self.C == str("A")):
-            self.Vab, self.angA  = getPolFromRec(Eab)
-            self.Vca, self.angB  = getPolFromRec(Eca)
-            self.IB, self.angC   = getPolFromRec(IBl)
-            sel.IC, self.angD    = getPolFromRec(ICl)
+        if (C == str("A")):
+            Vab, angA  = getPolFromRec(Eab)
+            Vca, angB  = getPolFromRec(Eca)
+            IB, angC   = getPolFromRec(IBl)
+            IC, angD    = getPolFromRec(ICl)
             
-            self.LWI  = Vab*IB*math.sin((ang1+180-angC)*math.pi/180)
-            self.LWII = vca*IC*math.sin((ang2-angD)*math.pi/180) 
+            LWI  = Vab*IB*math.sin((ang1+180-angC)*math.pi/180)
+            LWII = vca*IC*math.sin((ang2-angD)*math.pi/180) 
 
-        elif (self.C == str("B")):
-            self.Vab, self.angA = getPolFromRec(Eab)
-            self.Vbc, self.angB = getPolFromRec(Ebc)
-            self.IA, self.angC  = getPolFromRec(IAl)
-            self.IC, self.angD  = getPolFromRec(ICl)
+        elif (C == str("B")):
+            Vab, angA = getPolFromRec(Eab)
+            Vbc, angB = getPolFromRec(Ebc)
+            IA,  angC  = getPolFromRec(IAl)
+            IC,  angD  = getPolFromRec(ICl)
             
-            self.LWI  = vab*IA*math.sin((angA-angC)*math.pi/180)
-            self.LWII = vbc*IC*math.sin((angB+180-angD)*math.pi/180)
+            LWI  = vab*IA*math.sin((angA-angC)*math.pi/180)
+            LWII = vbc*IC*math.sin((angB+180-angD)*math.pi/180)
 
-        elif (self.C == str("C")):
-            self.Vca, self.angA = getPolFromRec(Eca)
-            self.Vbc, self.angB = getPolFromRec(Ebc)
-            self.IA, self.angC  = getPolFromRec(IAl)
-            self.IB, self.angD  = getPolFromRec(IBl)
+        elif (C == str("C")):
+            Vca, angA = getPolFromRec(Eca)
+            Vbc, angB = getPolFromRec(Ebc)
+            IA, angC  = getPolFromRec(IAl)
+            IB, angD  = getPolFromRec(IBl)
 
-            self.LWI  = Vca*IA*math.sin((angA+180-angC)*math.pi/180)
-            self.LWII = Vbc*IB*math.sin((angB-angD)*math.pi/180)
+            LWI  = Vca*IA*math.sin((angA+180-angC)*math.pi/180)
+            LWII = Vbc*IB*math.sin((angB-angD)*math.pi/180)
 
         lecctura=LWI+LWII
 
@@ -805,18 +801,18 @@ class tresVatimetrosreactiva(object):
         Ecn=fuente.getVca()
   
     def tres_vatimetrosE(self, IAl, IBl, ICl, Ean, Ebn, Ecn):
-        self.EaB, self.angA = getPolFromRec(Ean)
-        self.EbC, self.angB = getPolFromRec(Ebn)
-        self.EcA, self.angC = getPolFromRec(Ecn)
+           EaB, angA = getPolFromRec(Ean)
+           EbC, angB = getPolFromRec(Ebn)
+           EcA, angC = getPolFromRec(Ecn)
 
-        self.IA, self.angD  = getPolFromRec(IAl)
-        self.IB, self.angE  = getPolFromRec(IBl)
-        self.IC, self.angF  = getPolFromRec(ICl)
+           IA, angD  = getPolFromRec(IAl)
+           IB, angE  = getPolFromRec(IBl)
+           IC, angF  = getPolFromRec(ICl)
 
-        self.LWI      = EaB*IA*sin((angA-angD)*math.pi/180)
-        self.LWII     = EbC*IB*sin((angB-angE)*math.pi/180)
-        self.LWIII    = EcA*IC*sin((angC-angF)*math.pi/180)
-        self.lectura  = LWI+LWII+LWIII
+           LWI      = EaB*IA*sin((angA-angD)*math.pi/180)
+           LWII     = EbC*IB*sin((angB-angE)*math.pi/180)
+           LWIII    = EcA*IC*sin((angC-angF)*math.pi/180)
+           self.lectura  = LWI+LWII+LWIII
 
     def getPotenciaReActiva(self):
         return self.lectura
