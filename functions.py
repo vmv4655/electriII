@@ -14,35 +14,42 @@ def FP (LWI,LWII,angulo1,angulo2):
 
 # FUNCION PARA OBTENER LAS CORRIENTES DE LINEA DE LA FUENTE
 def getCargasLinea(ListaCargas, secuencia):
-        ItrifasicaA = 0
-        ItrifasicaB = 0
-        ItrifasicaC = 0
-        for x in range(0,len(ListaCargas)):
-                carga=ListaCargas[x]
-                if (carga.getTipoCarga()=="Trifasico"):
-                        ItrifasicaA += carga.getIA()
-                        ItrifasicaB += carga.getIB()
-                        ItrifasicaC += carga.getIC()
-                elif (carga.getTipoCarga()=="Monofasico"):
-                        if (carga.getConexion() == "AB" and secuencia== "ABC"):
-                                ItrifasicaA += carga.getIL()
-                        elif (carga.getConexion() == "AB" and secuencia== "ACB"):
-                                ItrifasicaB += carga.getIL()
-                        elif (carga.getConexion() == "BC" and secuencia== "ABC"):
-                                ItrifasicaB += carga.getIL()
-                        elif (carga.getConexion() == "BC" and secuencia== "ACB"):
-                                ItrifasicaC += carga.getIL()                        
-                        elif (carga.getConexion() == "CA" and secuencia== "ABC"):
-                                ItrifasicaC += carga.getIL()
-                        elif (carga.getConexion() == "CA" and secuencia== "ACB"):
-                                ItrifasicaA += carga.getIL()
-                        elif (carga.getConexion() == "AN"):
-                                ItrifasicaA += carga.getIL()
-                        elif (carga.getConexion() == "BN"):
-                                ItrifasicaB += carga.getIL()
-                        elif (carga.getConexion() == "CN"):
-                                ItrifasicaC += carga.getIL()
-        return (ItrifasicaA, ItrifasicaB, ItrifasicaC)
+	print('GETCARGASLINEA')
+	ItrifasicaA = 0+0j
+	ItrifasicaB = 0+0j
+	ItrifasicaC = 0+0j
+	for x in range(0,len(ListaCargas)):
+		print('IN RANGE')
+
+		carga=ListaCargas[x]
+		print(carga.getTipoCarga())
+		if (carga.getTipoCarga()=="Trifasica"):
+			print("TRIFASICO")
+			ItrifasicaA += carga.getIA()
+			ItrifasicaB += carga.getIB()
+			ItrifasicaC += carga.getIC()
+		elif (carga.getTipoCarga()=="Monofasica"):
+			print("ILILILIL")
+			print(carga.getIL())
+			if (carga.getConexion() == "AB" and secuencia== "ABC"):
+				ItrifasicaA += carga.getIL()
+			elif (carga.getConexion() == "AB" and secuencia== "ACB"):
+				ItrifasicaB += carga.getIL()
+			elif (carga.getConexion() == "BC" and secuencia== "ABC"):
+				ItrifasicaB += carga.getIL()
+			elif (carga.getConexion() == "BC" and secuencia== "ACB"):
+				ItrifasicaC += carga.getIL()                        
+			elif (carga.getConexion() == "CA" and secuencia== "ABC"):
+				ItrifasicaC += carga.getIL()
+			elif (carga.getConexion() == "CA" and secuencia== "ACB"):
+				ItrifasicaA += carga.getIL()
+			elif (carga.getConexion() == "AN"):
+				ItrifasicaA += carga.getIL()
+			elif (carga.getConexion() == "BN"):
+				ItrifasicaB += carga.getIL()
+			elif (carga.getConexion() == "CN"):
+				ItrifasicaC += carga.getIL()
+	return (ItrifasicaA, ItrifasicaB, ItrifasicaC)
 
 
 #Verifica si un valor es de tipo entero o flotante
@@ -343,7 +350,7 @@ class FuenteEstrella(Fuente):
 class CargaMonofasica(object):
     tipo="Monofasica"
     conexion=None
-    Il    = None
+    IL    = None
     voltaje=None
     EaN   = None
     EbN   = None
@@ -381,11 +388,11 @@ class CargaMonofasica(object):
         if (conexion == "CN"):
                 self.voltaje = self.Eca
                 self.conexion="CN"
-    def setTipoCarga(self,  carga):
-        if (carga == "Monofasicas"):
-            self.tipocarga=carga
-        elif (carga=="Motores"):
-            self.tipocarga=carga
+    #def setTipoCarga(self,  carga):
+        #if (carga == "Monofasicas"):
+            #self.tipocarga=carga
+        #elif (carga=="Motores"):
+            #self.tipocarga=carga
 
 
     def setDatosMonofase(self, P=None, Q=None, S=None, fp=None, direccion=None, Cantidad=None, Z=None):
@@ -399,9 +406,7 @@ class CargaMonofasica(object):
                 if (direccion == "Atraso"):
                     cita  = (math.acos(fp)*180/math.pi)
             if (P==None and S==None):
-                P=(a/math.sin(cita*math.pi/180))*math.cos(cita*math.pi/180)
-            if (P==None and S==None):
-                P=(a/math.sin(cita*math.pi/180))*math.cos(cita*math.pi/180)
+                P=(Q/math.sin(cita*math.pi/180))*math.cos(cita*math.pi/180)
             elif (P==None and Q==None):
                 P=S*fp
             print(getPolFromRec(self.voltaje))
@@ -431,44 +436,72 @@ class CargaMonofasica(object):
         self.IL    = complex(R, -I)   
             
     def getIL(self):
-        return self.IL   
+        return self.IL
 
+    def getTipoCarga(self):
+    	return self.tipo
+
+    def getConexion(self):
+    	return self.conexion
 
         
 #FUNCINES PARA CARGAS TRIFASICA,(CONEXCIONES DELTA, ESTRELLA,MOTORES)
 
-class estrellaBal(object):
+class CargaEstrellaBalanceada(object):
 
     tipo="Trifasica"
-    IA=None
-    IB=None
-    IC=None
+    IAB=None
+    IBC=None
+    ICA=None
+
 
     def __init__(self, fuente):
-        EAn=fuente.getVan()
-        EBn=fuente.getVbn()
-        ECn=fuente.getVcn()
-        Eab=fuente.getVab()
-        Ebc=fuente.getVbc()
-        Eca=fuente.getVca()
+        self.EAn=fuente.getVan()
+        self.EBn=fuente.getVbn()
+        self.ECn=fuente.getVcn()
+        self.EAB=fuente.getVab()
+        self.EBC=fuente.getVbc()
+        self.ECA=fuente.getVca()
+    
+    def getiDesdePotencia(self, P=None, Q=None, S=None, fp=None, direccion=None):
+    	cita=None
+    	if (direccion== "Adelanto"):
+    		cita  = -(math.acos(fp)*180/math.pi)
+    	else:
+    		if (direccion == "Atraso"):
+    			cita  = (math.acos(fp)*180/math.pi)
+    	if (P==None and S==None):
+    		P=((Q/math.sin(cita*math.pi/180))*math.cos(cita*math.pi/180))/3
 
-    def corrientesLinea(self,EAn,EBn,ECn,z):
-        self.IA=EAn/z
-        self.IB=EBn/z
-        self.IC=ECn/z
+    	elif (P==None and Q==None):
+    		P=(S*fp)/3
+    	si  = (P/fp)
+    	sf  = getRecFromPol(1, cita)
+    	S   = si*sf
+    	Ilp = (S/self.EAB)
+    	R   = Ilp.real
+    	I   = Ilp.imag
+    	self.IAB  = complex(R, -I)
+    	self.IBC  = complex(R, -I)
+    	self.ICA  = complex(R, -I)
+
+    def getiDesdeZ(self,z):
+        self.IAB=self.EAn/z
+        self.IBC=self.EBn/z
+        self.ICA=self.ECn/z
 
     def getIA(self):
-        return self.IA
+        return self.IAB
     def getIB(self):
-        return self.IB
+        return self.IBC
     def getIC(self):
-        return self.IC
+        return self.ICA
 
     def getTipoCarga(self):
         return self.tipo
        
 #PARA CARGAS ESTRELLA DESBALANCEADAS CON NEUTRO# 
-class estrellaDesbal(object):
+class CargaEstrellaDesbalConNeutro(object):
 
     tipo="Trifasica"
     IA=None
@@ -476,16 +509,16 @@ class estrellaDesbal(object):
     IC=None
     IN=None
     def __init__(self, fuente):
-        EAn=fuente.getVan()
-        EBn=fuente.getVbn()
-        ECn=fuente.getVcn()
-        Eab=fuente.getVab()
-        Ebc=fuente.getVbc()
-        Eca=fuente.getVca()
-    def corrientesLinea(self,EAn,EBn,ECn,za,zb,zc):
-        self.IA=EAn/za
-        self.IB=EBn/zb
-        self.IC=ECn/zc
+        self.EAn=fuente.getVan()
+        self.EBn=fuente.getVbn()
+        self.ECn=fuente.getVcn()
+        self.Eab=fuente.getVab()
+        self.Ebc=fuente.getVbc()
+        self.Eca=fuente.getVca()
+    def corrientesLinea(self,za,zb,zc):
+        self.IA=self.EAn/za
+        self.IB=self.EBn/zb
+        self.IC=self.ECn/zc
         self.IN=self.IA+self.IB+self.IC
     def getIA(self):
         return self.IA
@@ -500,22 +533,22 @@ class estrellaDesbal(object):
         return self.tipo
        
 #PARA CARGAS ESTRELLA DESBALANCEADAS SIN NEUTRO CONECTADA A FUENTE ESTRELLA#
-class estrellaDesbalSinNeutro(object):
+class CargaEstrellaDesbalSinNeutro(object):
 
     tipo="Trifasica"
     IA=None
     IB=None
     IC=None
-    IN=None
+
     def __init__(self, fuente):
 
-        EAB=fuente.getVab()
-        EBC=fuente.getVbc()
-        ECA=fuente.getVca()
-    def corrientesLinea(self,EAB,EBC,ECA,za,zb,zc):
-        self.IA=(EAB*zc-ECA*zb)/(za*zb+za*zc+zb*zc)
-        self.IC=(ECA*zb-EBC*za)/(za*zb+za*zc+zb*zc)
-        self.IB=(EBC*za-EAB*zc)/(za*zb+za*zc+zb*zc)
+        self.EAB=fuente.getVab()
+        self.EBC=fuente.getVbc()
+        self.ECA=fuente.getVca()
+    def corrientesLinea(self,za,zb,zc):
+        self.IA=(self.EAB*zc-self.ECA*zb)/(za*zb+za*zc+zb*zc)
+        self.IC=(self.ECA*zb-self.EBC*za)/(za*zb+za*zc+zb*zc)
+        self.IB=(self.EBC*za-self.EAB*zc)/(za*zb+za*zc+zb*zc)
     def getIA(self):
         return self.IA
     def getIB(self):
@@ -530,19 +563,19 @@ class estrellaDesbalSinNeutro(object):
 
 
 #PARA CARGAS ESTRELLA DESBALANCEADAS CONECTADA A DELTA(SIN NEUTRO)# 
-class estrellaDesbalfdelta(object):
+class CargaEstrellaDesbalFuenteDelta(object):
     tipo="Trifasica"
     IA=None
     IB=None
     IC=None
     def __init__(self, fuente):
-        EAB=fuente.getVab()
-        EBC=fuente.getVbc()
-        ECA=fuente.getVca()
-    def corrientesLinea(self,EAB,EBC,ECA,za,zb,zc):
-        self.IA=(EAB*zc-ECA*zb)/(za*zb+za*zc+zb*zc)
-        self.IC=(ECA*zb-EBC*za)/(za*zb+za*zc+zb*zc)
-        self.IB=(EBC*za-EAB*zc)/(za*zb+za*zc+zb*zc)
+        self.EAB=fuente.getVab()
+        self.EBC=fuente.getVbc()
+        self.ECA=fuente.getVca()
+    def corrientesLinea(self,za,zb,zc):
+        self.IA=(self.EAB*zc-self.ECA*zb)/(za*zb+za*zc+zb*zc)
+        self.IC=(self.ECA*zb-self.EBC*za)/(za*zb+za*zc+zb*zc)
+        self.IB=(self.EBC*za-self.EAB*zc)/(za*zb+za*zc+zb*zc)
     def getIA(self):
         return self.IA
     def getIB(self):
@@ -551,10 +584,10 @@ class estrellaDesbalfdelta(object):
         return self.IC 
 
     def getTipoCarga(self):
-        return self.tipo   
+        return self.tipo    
                
 #PARA CARGAS DELTA BALANCEADAS# 
-class deltaBal(object):
+class CargaDeltaBalanceada(object):
     tipo="Trifasica"
     IAB=None
     IBC=None
@@ -563,35 +596,67 @@ class deltaBal(object):
     Ib=None
     Ic=None
     def __init__(self, fuente):
-        EAB=fuente.getVab()
-        EBC=fuente.getVbc()
-        ECA=fuente.getVca()
- 
-    def corrientes(self,EAB,EBC,ECA,z):
-        self.IAB=EAB/z
-        self.IBC=EBC/z
-        self.ICA=ECA/z
+        self.EAB=fuente.getVab()
+        self.EBC=fuente.getVbc()
+        self.ECA=fuente.getVca()
+    def getiDesdePotencia(self, P=None, Q=None, S=None, fp=None, direccion=None):
+    	cita=None
+    	if (direccion== "Adelanto"):
+    		cita  = -(math.acos(fp)*180/math.pi)
+    	else:
+    		if (direccion == "Atraso"):
+    			cita  = (math.acos(fp)*180/math.pi)
+    	if (P==None and S==None):
+    		P=((Q/math.sin(cita*math.pi/180))*math.cos(cita*math.pi/180))/3
+
+    	elif (P==None and Q==None):
+    		P=(S*fp)/3
+    	si  = (P/fp)
+    	sf  = getRecFromPol(1, cita)
+    	S   = si*sf
+    	Ilp = (S/self.EAB)
+    	R   = Ilp.real
+    	I   = Ilp.imag
+    	self.IAB  = complex(R, -I)
+    	self.IBC  = complex(R, -I)
+    	self.ICA  = complex(R, -I)
+    	self.Ia=self.IAB*(complex(1.5,-0.8660254038))
+    	self.Ib=self.IBC*(complex(1.5,-0.8660254038))
+    	self.Ic=self.ICA*(complex(1.5,-0.8660254038))
+
+    def getiDesdeZ(self,z):
+        self.IAB=self.EAB/z
+        self.IBC=self.EBC/z
+        self.ICA=self.ECA/z
         self.Ia=self.IAB*(complex(1.5,-0.8660254038))
         self.Ib=self.IBC*(complex(1.5,-0.8660254038))
         self.Ic=self.ICA*(complex(1.5,-0.8660254038))
-    def getIAB(self):
+    
+    def getIAn(self):
         return self.IAB
-    def getIBC(self):
+    def getIBn(self):
         return self.IBC
-    def getICA(self):
+    def getICn(self):
         return self.ICA
-    def getIa(self):
+    def getIAB(self):
         return self.Ia
-    def getIb(self):
+    def getIBC(self):
         return self.Ib
-    def getIc(self):
+    def getICA(self):
+        return self.Ic
+
+    def getIA(self):
+        return self.Ia
+    def getIB(self):
+        return self.Ib
+    def getIC(self):
         return self.Ic
     
     def getTipoCarga(self):
-        return self.tipo   
+        return self.tipo
 
 #PARA CARGA DELTA DESBALANCEADAS#
-class deltaDesbal(object):
+class CargaDeltaDesbal(object):
     tipo="Trifasica"
     IAB=None
     IBC=None
@@ -600,58 +665,60 @@ class deltaDesbal(object):
     Ib=None
     Ic=None
     def __init__(self, fuente):
-        EAB=fuente.getVab()
-        EBC=fuente.getVbc()
-        ECA=fuente.getVca()
-    def corrienteLinea(self,EAB,EBC,ECA,za,zb,zc):
-        self.IAB=EAB/za
-        print(EAB)
-        print(za)
-        print(self.IAB)
-        self.IBC=EBC/zb
-        self.ICA=ECA/zc
+        self.EAB=fuente.getVab()
+        self.EBC=fuente.getVbc()
+        self.ECA=fuente.getVca()
+    def corrienteLinea(self, za, zb, zc):
+        self.IAB=self.EAB/za
+        self.IBC=self.EBC/zb
+        self.ICA=self.ECA/zc
         self.Ia=self.IAB-self.ICA
         self.Ib=self.IBC-self.IAB
         self.Ic=self.ICA-self.IBC
-    def getIAB(self):
+    def getIAn(self):
         return self.IAB
-    def getIBC(self):
+    def getIBn(self):
         return self.IBC
-    def getICA(self):
+    def getICn(self):
         return self.ICA
-    def getIa(self):
+    def getIAB(self):
         return self.Ia
-    def getIb(self):
+    def getIBC(self):
         return self.Ib
-    def getIc(self):
+    def getICA(self):
         return self.Ic
 
     def getTipoCarga(self):
-        return self.tipo   
+        return self.tipo
+
 #Para motores,Apartir de Potencia,cantidad,Hp,FP,D,Eficiencia
 #D=direccion(1=adelanto,0=atraso)
-class cargaMotor(object):
+class CargaMotorTrifasico(object):
     tipo="Trifasica"
     IA=None
     IB=None
     Ic=None
+    EAn=None
+    EBn=None
+    ECn=None
     def __init__(self, fuente):
-        EAn=fuente.getVan()
-        EBn=fuente.getVbn()
-        ECn=fuente.getVcn()
+        self.EAn=fuente.getVan()
+        self.EBn=fuente.getVbn()
+        self.ECn=fuente.getVcn()
     def polarTorectangular(v,ang):
         x=v*(math.cos(ang*math.pi/180))
         y=v*(math.sin(ang*math.pi/180))
         com=complex(x,y)
         return(com)
-    def Il_motor(self,EAn,potencia,cantidad,Hp,fp,n): 
+    def Il_motor(self,cantidad,Hp,fp,n): 
         cita=(math.degrees(math.acos(fp)))
-        PIII=cantidad*Hp*746*potencia*(1/n)
+        PIII=cantidad*Hp*746*(1/n)
         PI=PIII/3
         si  = (PI/fp)
         sf  = getRecFromPol(1, cita)
         S   = si*sf
-        Ilp = (S/EAn)
+        print(self.EAn)
+        Ilp = (S/self.EAn)
         R   = Ilp.real
         I   = Ilp.imag
         self.IA  = complex(R, -I)

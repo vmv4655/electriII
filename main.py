@@ -5,7 +5,9 @@ kivy.require('1.9.0')
 from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.popup import Popup
+from kivy.uix.listview import ListItemButton
 from kivy.core.window import Window
+from kivy.properties import ObjectProperty
 
 class SelecFuente(Popup):
 	pass
@@ -37,14 +39,18 @@ class GetCargaMotorMonofase(Popup):
 class GetCargaMonofase(Popup):
 	pass
 
+class BotonListaCargas(ListItemButton):
+	pass
+
 
 class AppLayout(FloatLayout):
-	listaCargas  = [None]
-	listaFuentes = [None]
 	fuente       = None
+	listaFuentes = [None]
+	listaCargas  = []
+	secuencia    = ""
 	tipoFuente   = ""
 	tmpTipoCarga = ""
-	
+	displaylistaCargas = ObjectProperty()
 
 	def getTipoFuente(self):
 		selecFuente = SelecFuente()
@@ -69,8 +75,19 @@ class AppLayout(FloatLayout):
 			self.displayVab.text = str( getPolFromRecToGUI( self.listaFuentes[0].getVab() ))
 			self.displayVbc.text = str( getPolFromRecToGUI( self.listaFuentes[0].getVbc() ))
 			self.displayVca.text = str( getPolFromRecToGUI( self.listaFuentes[0].getVca() ))
-			
 	
+	def updateCorrientesPantalla(self):
+		if(len(self.listaCargas) == 0):
+			return
+		else:
+			self.displayIa.text   = str( getPolFromRecToGUI( getCargasLinea(self.listaCargas, self.secuencia)[0] ))
+			self.displayIb.text   = str( getPolFromRecToGUI( getCargasLinea(self.listaCargas, self.secuencia)[1] ))
+			self.displayIc.text   = str( getPolFromRecToGUI( getCargasLinea(self.listaCargas, self.secuencia)[2] ))
+			self.displayIn.text   = str( "N/A" )
+			self.displayFP.text   = str( "N/A" )
+			self.displayL3W.text  = str( "N/A" )
+			self.displayL2W.text  = str( "N/A" )
+
 	def setVoltajeAB(self, secuenciaState, recOrPolState, magnitud, angulo, real, imaginario ):
 		Vab = None
 		print(secuenciaState)
@@ -91,6 +108,7 @@ class AppLayout(FloatLayout):
 				Vab = getRecFromPol(float(magnitud), float(angulo))
 				print(Vab)
 				if(secuenciaState == 'down'): #Secuencia ABC
+					self.secuencia = "ABC"				
 					if(self.tipoFuente == "Estrella"):
 						self.fuente = FuenteEstrella()
 						self.fuente.calcularVoltajes(None , None, None, Vab, None, None, "ABC")
@@ -101,6 +119,7 @@ class AppLayout(FloatLayout):
 
 				elif(secuenciaState == 'normal'): #Secuencia ACB
 					if(self.tipoFuente == "Estrella"):
+						self.secuencia = "ACB"
 						self.fuente = FuenteEstrella()
 						self.fuente.calcularVoltajes(None , None, None, Vab, None, None, "ACB")
 		
@@ -196,13 +215,16 @@ class AppLayout(FloatLayout):
 		else:
 			print('ERROR')
 
+	##Lets do the magic##
+
 	def addCargaMonoFase(self, cantidad, a1Selected, a2Selected, b1Selected, b2Selected, c1Selected, c2Selected, n1Selected, n2Selected, potenciaActive, zActive, pAparente, pReactiva, pReal, fp, adelantoActive, atrasoActive, zReal, zComplejo):
 		print('agregandoCargaMonoFase')
 		cargaMonofasica = CargaMonofasica(self.listaFuentes[0])
+		
 		if(cantidad != ""):
 			cantidad = float(cantidad)
 		else:
-			cantidad = 1
+			cantidad = 1.0
 
 		if(fp == ""):
 			fp = 1
@@ -244,7 +266,8 @@ class AppLayout(FloatLayout):
 						cargaMonofasica.setDatosMonofase(None, None, pAparente, fp, "Atraso", cantidad, None)
 					
 					else:
-						print('FUCK YOU')
+						print('error')
+					#dataCarga = "Cargas monofasicas x %s\n, fp %s\n, %s\n VA " %(10, fp, pAparente)
 				elif(pReactiva != ""):
 					pReactiva = float(pReactiva)
 					if(adelantoActive):
@@ -253,7 +276,7 @@ class AppLayout(FloatLayout):
 					elif(atrasoActive):
 						cargaMonofasica.setDatosMonofase(None, pReactiva, None, fp, "Atraso", cantidad, None)
 					else:
-						print('FUCK YOU')
+						print('error')
 
 				elif(pReal != ""):
 					pReal = float(pReal)
@@ -261,10 +284,14 @@ class AppLayout(FloatLayout):
 						cargaMonofasica.setDatosMonofase(pReal, None, None, fp, "Adelanto", cantidad, None)
 					
 					elif(atrasoActive):
-						cargaMonofasica.cargaMonofasica.setDatosMonofase(pReal, None, None, fp, "Atraso", cantidad, None)
+						cargaMonofasica.setDatosMonofase(pReal, None, None, fp, "Atraso", cantidad, None)
 
 					else:
-						print('FUCK YOU')
+						print('error')
+				self.listaCargas.append(cargaMonofasica)
+				#dataCarga = "%s\n cargas monofasicas, fp %s\n " %(cantidad, fp)
+				self.updateCorrientesPantalla()
+				print(self.listaCargas)
 					
 			else:
 				print('ERROR, NO DATOS')
@@ -274,14 +301,378 @@ class AppLayout(FloatLayout):
 			if(zReal != "" and zComplejo != ""):
 				z = complex(float(zReal), float(zComplejo))
 				cargaMonofasica.setDatosMonofase(None, None, None, None, None, cantidad, z)
+				self.listaCargas.append(cargaMonofasica)
+				self.updateCorrientesPantalla()
+				print(self.listaCargas)
 			else:
 				print('ERROR')
 
 		else:
 			print('ERROR DEBE SELECICONAR ALGUNO')
-
-
+		self.displaylistaCargas.adapter.data.extend(["Carga monofasica agregada"])
 		print(cargaMonofasica.getIL())
+
+	#def addMotorMonofase(self, cantidad, a1Selected, a2Selected, b1Selected, b2Selected, c1Selected, c2Selected, n1Selected, n2Selected, potenciaActive, HpActive, pAparente, pReactiva, pReal, fp, adelantoActive, atrasoActive, Hps, n):
+	def addMotorMonofase(self, cantidad, a1Selected, a2Selected, b1Selected, b2Selected, c1Selected, c2Selected, n1Selected, n2Selected, fp, adelantoActive, atrasoActive, Hps, n):
+		print('Agregando Motor Monofase')
+		motorMonofase = CargaMonofasica(self.listaFuentes[0])
+		
+		if(cantidad != ""):
+			cantidad = float(cantidad)
+		else:
+			cantidad = 1
+
+		if(fp == ""):
+			fp = 1
+		
+		conexion = ""
+		if(a1Selected):
+			if(b2Selected):
+				conexion = "AB"
+			elif(c2Selected):
+				conexion = "CA"
+			elif(n2Selected):
+				conexion = "AN"
+		elif(b1Selected):
+			if(a2Selected):
+				conexion = "AB"
+			elif(c2Selected):
+				conexion = "BC"
+			elif(n2Selected):
+				conexion = "BN"
+
+		elif(c1Selected):
+			if(a2Selected):
+				conexion = "CA"
+			elif(b2Selected):
+				conexion = "BC"
+			elif(n2Selected):
+				conexion = "CN"
+		motorMonofase.setConexion(conexion)
+
+		"""if(potenciaActive):
+			if((pAparente != "" or pReactiva != "" or pReal != "") and fp != "" and n != ""):
+				fp = float(fp)
+				n  = float(n)
+				if(pAparente != ""):
+					pAparente = float(pAparente)
+					if(adelantoActive):
+						cargaMonofasica.setDatosMotorMonofase(Cantidad, Hp, fp, n, direccion):
+					
+					elif(atrasoActive):
+						cargaMonofasica.setDatosMotorMonofase(Cantidad, Hp, fp, n, direccion):
+					
+					else:
+						print('error')
+				elif(pReactiva != ""):
+					pReactiva = float(pReactiva)
+					if(adelantoActive):
+						cargaMonofasica.setDatosMotorMonofase(Cantidad, Hp, fp, n, direccion):
+					
+					elif(atrasoActive):
+						cargaMonofasica.setDatosMotorMonofase(Cantidad, Hp, fp, n, direccion):
+					else:
+						print('error')
+
+				elif(pReal != ""):
+					pReal = float(pReal)
+					if(adelantoActive):
+						cargaMonofasica.setDatosMotorMonofase(Cantidad, Hp, fp, n, direccion):
+					
+					elif(atrasoActive):
+						cargaMonofasica.cargaMonofasica.setDatosMotorMonofase(Cantidad, Hp, fp, n, direccion):
+
+					else:
+						print('ddddd')
+					
+			else:
+				print('ERROR, NO DATOS')"""
+
+
+		
+		if(Hps != "" and n != "" and fp != ""):
+			Hps = float(Hps)
+			n   = float(n)
+			fp  = float(fp)
+
+			if(adelantoActive):
+				motorMonofase.setDatosMotorMonofase(cantidad, Hps, fp, n, "Adelanto")
+			elif(atrasoActive):
+				motorMonofase.setDatosMotorMonofase(cantidad, Hps, fp, n, "Atraso")
+			else:
+				print('ERROR')
+
+			self.listaCargas.append(motorMonofase)
+			self.updateCorrientesPantalla()
+			print(self.listaCargas)
+
+		else:
+			print('ERROR DEBE SELECICONAR ALGUNO')
+
+		print(motorMonofase.getIL())
+		self.displaylistaCargas.adapter.data.extend(["Motor monofasico agregado"])
+
+	def addCargaMotorTrifasico(self, cantidad, fp, Hp, n):
+		print('agregandoCargaMotorTrifasico')
+		cargaMotorTrifasico = CargaMotorTrifasico(self.listaFuentes[0])
+		
+		if(cantidad != ""):
+			cantidad = float(cantidad)
+		else:
+			cantidad = 1
+
+		if(fp != ""):
+			fp = float(fp)
+		else:
+			fp = 1
+
+		if (Hp != "" and n != "" and fp != ""):
+			Hp = float(Hp)
+			n = float(n)
+			cargaMotorTrifasico.Il_motor(cantidad,Hp,fp,n)
+
+			self.listaCargas.append(cargaMotorTrifasico)
+			self.updateCorrientesPantalla()
+			print(self.listaCargas)
+
+		else:
+			print('ERROR, NO DATOS')
+
+		self.displaylistaCargas.adapter.data.extend(["Motor trifasico agregado"])
+		print(cargaMotorTrifasico.getIA())
+		print(cargaMotorTrifasico.getIB())
+		print(cargaMotorTrifasico.getIC())
+
+	def addCargaDelta(self, potenciaActive, zActive, balancActive, desbalancActive, pAparente, pReactiva, pReal, fp, adelantoActive, atrasoActive, zRealAB, zComplejoAB, zRealBC, zComplejoBC,zRealCA, zComplejoCA):
+		print('addCargaDelta')
+		cargaDeltaDesbal = CargaDeltaDesbal(self.listaFuentes[0])
+		cargaDeltaBalanceada = CargaDeltaBalanceada(self.listaFuentes[0])
+
+		if(fp == ""):
+			fp = 1
+
+		if (potenciaActive == True):
+			cargaDeltaBalanceada = CargaDeltaBalanceada(self.listaFuentes[0])
+			if((pAparente != "" or pReactiva != "" or pReal != "") and fp != ""):
+				fp = float(fp)
+				if(pAparente != ""):
+					pAparente = float(pAparente)
+					if(adelantoActive):
+						cargaDeltaBalanceada.getiDesdePotencia(None, None, pAparente, fp, "Adelanto")
+					
+					elif(atrasoActive):
+						cargaDeltaBalanceada.getiDesdePotencia(None, None, pAparente, fp, "Atraso")
+					
+					else:
+						print('ERROR')
+				elif(pReactiva != ""):
+					pReactiva = float(pReactiva)
+					if(adelantoActive):
+						cargaDeltaBalanceada.getiDesdePotencia(None, pReactiva, None, fp, "Adelanto")
+
+					elif(atrasoActive):
+						cargaDeltaBalanceada.getiDesdePotencia(None, pReactiva, None, fp, "Atraso")
+					
+					else:
+						print('ERROR')
+
+				elif(pReal != ""):
+					pReal = float(pReal)
+					if(adelantoActive):
+						cargaDeltaBalanceada.getiDesdePotencia(pReal, None, None, fp, "Adelanto")
+					
+					elif(atrasoActive):
+						cargaDeltaBalanceada.getiDesdePotencia(pReal, None, None, fp, "Adelanto")
+
+					else:
+						print('ERROR')
+				self.displaylistaCargas.adapter.data.extend(["Carga delta balanceada agregada"])
+				self.listaCargas.append(cargaDeltaBalanceada)
+				self.updateCorrientesPantalla()
+				print(self.listaCargas)
+
+		elif(zActive == True):
+			if(balancActive == True):
+				cargaDeltaBalanceada = CargaDeltaBalanceada(self.listaFuentes[0])
+
+				if(zRealAB != "" and zComplejoAB != ""):
+					zAB = complex(float(zRealAB), float(zComplejoAB))
+					cargaDeltaBalanceada.getiDesdeZ(zAB)
+
+					self.displaylistaCargas.adapter.data.extend(["Carga delta balanceada agregada"])
+					self.listaCargas.append(cargaDeltaBalanceada)
+					self.updateCorrientesPantalla()
+					print(self.listaCargas)
+					
+			elif(desbalancActive == True):
+				cargaDeltaDesbal = CargaDeltaDesbal(self.listaFuentes[0])
+				if(zRealAB != "" and zComplejoAB != "" and zRealBC != "" and zComplejoBC != "" and zRealCA != "" and zComplejoCA != ""):
+					zAB = complex(float(zRealAB), float(zComplejoAB))
+					zBC = complex(float(zRealBC), float(zComplejoBC))
+					zCA = complex(float(zRealCA), float(zComplejoCA))
+
+					cargaDeltaDesbal.corrienteLinea(zAB,zBC,zCA)
+
+					self.displaylistaCargas.adapter.data.extend(["Carga delta desbalanceada agregada"])
+					self.listaCargas.append(cargaDeltaDesbal)
+					self.updateCorrientesPantalla()
+					print(self.listaCargas)
+
+			else:
+				print('ERROR')
+
+		else:
+			print('ERROR DEBE SELECICONAR ALGUNO')
+		
+		print('===========================')
+		print(cargaDeltaBalanceada.getIAn())
+		print(cargaDeltaBalanceada.getIBn())
+		print(cargaDeltaBalanceada.getICn())
+		print(cargaDeltaBalanceada.getIAB())
+		print(cargaDeltaBalanceada.getIBC())
+		print(cargaDeltaBalanceada.getICA())
+
+		print(cargaDeltaDesbal.getIAn())
+		print(cargaDeltaDesbal.getIBn())
+		print(cargaDeltaDesbal.getICn())
+		print(cargaDeltaDesbal.getIAB())
+		print(cargaDeltaDesbal.getIBC())
+		print(cargaDeltaDesbal.getICA())
+
+	def addCargaEstrella(self, pActive, zActive, pAparente, pReactiva, pReal, fp, adelantoActive, atrasoActive, zRealA, zComplejoA,zRealB, zComplejoB,zRealC, zComplejoC,neutroSi,neutroNo,balActive,desbalActive):
+		print('agregandoTrifasica')
+		cargaEstrellaBalanceada = CargaEstrellaBalanceada(self.listaFuentes[0])
+		cargaEstrellaDesbalFuenteDelta = CargaEstrellaDesbalFuenteDelta(self.listaFuentes[0])
+		cargaEstrellaDesbalConNeutro = CargaEstrellaDesbalConNeutro(self.listaFuentes[0])
+		cargaEstrellaDesbalSinNeutro = CargaEstrellaDesbalSinNeutro(self.listaFuentes[0])
+
+		if(fp == ""):
+			fp = 1
+
+		if(pActive):
+			cargaEstrellaBalanceada = CargaEstrellaBalanceada(self.listaFuentes[0])
+			if((pAparente != "" or pReactiva != "" or pReal != "") and fp != ""):
+				fp = float(fp)
+				if(pAparente != ""):
+					pAparente = float(pAparente)
+					if(adelantoActive):
+						cargaEstrellaBalanceada.getiDesdePotencia(None, None, pAparente, fp, "Adelanto")
+					elif(atrasoActive):
+						cargaEstrellaBalanceada.getiDesdePotencia(None, None, pAparente, fp, "Atraso")
+				elif(pReactiva != ""):
+					pReactiva = float(pReactiva)
+					if(adelantoActive):
+						cargaEstrellaBalanceada.getiDesdePotencia(None, pReactiva, None, fp, "Adelanto")
+					elif(atrasoActive):
+						cargaEstrellaBalanceada.getiDesdePotencia(None, pReactiva, None, fp, "Atraso")
+
+				elif(pReal != ""):
+					pReal = float(pReal)
+					if(adelantoActive):
+						cargaEstrellaBalanceada.getiDesdePotencia(pReal, None, None, fp, "Adelanto")
+					elif(atrasoActive):
+						cargaEstrellaBalanceada.getiDesdePotencia(pReal, None, None, fp, "Atraso")
+				else:
+					print('error')
+
+				self.displaylistaCargas.adapter.data.extend(["Carga estrella balanceada agregada"])
+				self.listaCargas.append(cargaEstrellaBalanceada)
+				self.updateCorrientesPantalla()
+				print(self.listaCargas)
+
+			else:
+				print('error')
+
+		if(zActive):
+			if(balActive):
+				cargaEstrellaBalanceada = CargaEstrellaBalanceada(self.listaFuentes[0])
+				if(zRealA != "" and zComplejoA != ""):
+					z = complex(float(zRealA), float(zComplejoA))
+					cargaEstrellaBalanceada.getiDesdeZ(z)
+
+					self.displaylistaCargas.adapter.data.extend(["Carga estrella balanceada agregada"])
+					self.listaCargas.append(cargaEstrellaBalanceada)
+					self.updateCorrientesPantalla()
+					print(self.listaCargas)
+
+				else:
+					print('error')
+
+			elif(desbalActive):
+				if(neutroSi):
+					if(self.tipoFuente == "Delta"):
+						cargaEstrellaDesbalFuenteDelta = CargaEstrellaDesbalFuenteDelta(self.listaFuentes[0])
+						if(zRealA != "" and zComplejoA != "" and zRealB != "" and zComplejoB != "" and zRealC != "" and zComplejoC != "" ):
+							zAn = complex(float(zRealA), float(zComplejoA))
+							zBn = complex(float(zRealB), float(zComplejoB))
+							zCn = complex(float(zRealC), float(zComplejoC))
+							cargaEstrellaDesbalFuenteDelta.corrientesLinea(zAn, zBn,zCn)
+
+							self.displaylistaCargas.adapter.data.extend(["Carga estrella desbalanceada agregada"])
+							self.listaCargas.append(cargaEstrellaDesbalFuenteDelta)
+							self.updateCorrientesPantalla()
+							print(self.listaCargas)
+						else:
+							print('error')
+
+					elif(self.tipoFuente == "Estrella"):
+						cargaEstrellaDesbalConNeutro = CargaEstrellaDesbalConNeutro(self.listaFuentes[0])
+						if(zRealA != "" and zComplejoA != "" and zRealB != "" and zComplejoB != "" and zRealC != "" and zComplejoC != "" ):
+							zAn = complex(float(zRealA), float(zComplejoA))
+							zBn = complex(float(zRealB), float(zComplejoB))
+							zCn = complex(float(zRealC), float(zComplejoC))
+							cargaEstrellaDesbalConNeutro.corrientesLinea(zAn, zBn,zCn)
+
+							self.displaylistaCargas.adapter.data.extend(["Carga estrella desbalanceada con neutro agregada"])
+							self.listaCargas.append(cargaEstrellaDesbalConNeutro)
+							self.updateCorrientesPantalla()
+							print(self.listaCargas)
+
+						else:
+							print('error')
+
+				elif(neutroNo): #CargaEstrellaDesbalSinNeutro
+					cargaEstrellaDesbalSinNeutro = CargaEstrellaDesbalSinNeutro(self.listaFuentes[0])
+					if(zRealA != "" and zComplejoA != "" and zRealB != "" and zComplejoB != "" and zRealC != "" and zComplejoC != "" ):
+						zAn = complex(float(zRealA), float(zComplejoA))
+						zBn = complex(float(zRealB), float(zComplejoB))
+						zCn = complex(float(zRealC), float(zComplejoC))
+						cargaEstrellaDesbalSinNeutro.corrientesLinea(zAn, zBn,zCn)
+
+						self.displaylistaCargas.adapter.data.extend(["Carga estrella desbalanceada con neutro agregada"])
+						self.listaCargas.append(cargaEstrellaDesbalSinNeutro)
+						self.updateCorrientesPantalla()
+						print(self.listaCargas)
+
+					else:
+						print('error')
+					
+				else:
+					print('error')
+
+
+			else:
+				print('error')
+		else:
+			print('erro')
+
+		print(cargaEstrellaBalanceada.getIA())
+		print(cargaEstrellaBalanceada.getIB())
+		print(cargaEstrellaBalanceada.getIC())
+
+		print(cargaEstrellaDesbalFuenteDelta.getIA())
+		print(cargaEstrellaDesbalFuenteDelta.getIB())
+		print(cargaEstrellaDesbalFuenteDelta.getIC())
+
+		print(cargaEstrellaDesbalConNeutro.getIA())
+		print(cargaEstrellaDesbalConNeutro.getIB())
+		print(cargaEstrellaDesbalConNeutro.getIC())
+		print("in")
+		print(cargaEstrellaDesbalConNeutro.getIN())
+
+		print(cargaEstrellaDesbalSinNeutro.getIA())
+		print(cargaEstrellaDesbalSinNeutro.getIB())
+		print(cargaEstrellaDesbalSinNeutro.getIC())		
 
 class mainApp(App):
 	appLayout = None

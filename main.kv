@@ -1,6 +1,9 @@
-#:import hex kivy.utils.get_color_from_hex
-#: import ListAdapter kivy.adapters.listadapter.ListAdapter
+#: import hex kivy.utils.get_color_from_hex
+#: import mainFile main
+#: import sla kivy.adapters.simplelistadapter
+#: import label kivy.uix.label
 #: import ListItemButton kivy.uix.listview.ListItemButton
+#: import ListAdapter kivy.adapters.listadapter.ListAdapter
 <CustomButton@Button>:
 	spacing: 10
 	font_size: 32
@@ -14,7 +17,15 @@
 	valign:    'middle'
 	color: 0, 0, 0, 1
 
+<SecondRowDataLabel@Label>
+	text_size: self.size
+	font_size: 15
+	halign:    'left'
+	valign:    'middle'
+	color: 0, 0, 0, 1
+
 <AppLayout>:
+	displaylistaCargas: listaCargas
 	id           : appLayout
 	tipoDeFuente : tipoFuente
 	displayVan   : _Van
@@ -23,6 +34,14 @@
 	displayVab   : _Vab
 	displayVbc   : _Vbc
 	displayVca   : _Vca
+	displayIa    : Ia
+	displayIb    : Ib
+	displayIc    : Ic
+	displayIn    : In
+	displayFP    : FP
+	displayL3W   : L3W
+	displayL2W   : L2W
+
 	
 	BoxLayout:
 		size: self.parent.size
@@ -125,51 +144,51 @@
 					orientation: "vertical"
 					BoxLayout:
 						orientation: "horizontal"
-						DataOutLabel:
+						SecondRowDataOutLabel:
 							text: "Ia: "
-						DataLabel:
+						SecondRowDataLabel:
 							id: Ia
 
 					BoxLayout:
 						orientation: "horizontal"
-						DataOutLabel:
+						SecondRowDataOutLabel:
 							text: "Ib: "
-						DataLabel:
+						SecondRowDataLabel:
 							id: Ib
 
 					BoxLayout:
 						orientation: "horizontal"
-						DataOutLabel:
+						SecondRowDataOutLabel:
 							text: "Ic: "
-						DataLabel:
+						SecondRowDataLabel:
 							id: Ic
 
 					BoxLayout:
 						orientation: "horizontal"
-						DataOutLabel:
+						SecondRowDataOutLabel:
 							text: "In: "
-						DataLabel:
+						SecondRowDataLabel:
 							id: In
 
 					BoxLayout:
 						orientation: "horizontal"
-						DataOutLabel:
+						SecondRowDataOutLabel:
 							text: "FP: "
-						DataLabel:
+						SecondRowDataLabel:
 							id: FP
 
 					BoxLayout:
 						orientation: "horizontal"
-						DataOutLabel:
+						SecondRowDataOutLabel:
 							text: "L3W: "
-						DataLabel:
+						SecondRowDataLabel:
 							id: L3W
 
 					BoxLayout:
 						orientation: "horizontal"
-						DataOutLabel:
+						SecondRowDataOutLabel:
 							text: "L2W: "
-						DataLabel:
+						SecondRowDataLabel:
 							id: L2W
 
 		#Seccion inferior
@@ -211,10 +230,16 @@
 					Rectangle:
         				size: self.size
         				pos: self.pos
+
+        		ListView:
+        			id: listaCargas
+        			adapter:
+        				ListAdapter(data=[], cls= mainFile.BotonListaCargas)
+
         		#ListView:
-        			#selected_color: [0, 0, 0, 1]#hex('#212F3C')
         			#adapter:
-        				#ListAdapter(data=["Motor1", "Motor2", "Delta", "Motor4"], cls=ListItemButton)
+        				#sla.SimpleListAdapter(data=["Motor1", "Motor2", "Motor3"], cls=label.Label)
+        		
 
 
 <SelecVab>
@@ -349,6 +374,16 @@
 	valign:    'middle'
 	bold:      True
 	color: 0, 0, 0, 1
+
+<SecondRowDataOutLabel@Label>
+	text_size: self.size
+	size_hint_x: .2
+	font_size: 15	
+	halign:    'left'
+	valign:    'middle'
+	bold:      True
+	color: 0, 0, 0, 1
+
 
 
 <SelecFuente>
@@ -762,7 +797,7 @@
 
 <GetCargaMotorMonofase>
 	size_hint: None, None
-	size: 400, 380
+	size: 400, 300
 	title: "Agregar motor monofasico"
 	separator_color: hex('#740233')
 	BoxLayout:
@@ -923,45 +958,45 @@
 					#size_hint_x: .15
 					disabled: n1Selected.active
 
-		BoxLayout:
-			orientation: "horizontal"
+		#BoxLayout:
+			#orientation: "horizontal"
 			#size_hint_y: .2
-			size_hint_x: .25
-			CheckBox:
-				id: potenciaMotorSelected
-				color: 1, 1, 1, 1 #hex('#2ECC71')
-				group: "potOrZ"
-				size_hint_x: .15
-				active: True
+			#size_hint_x: .25
+			#CheckBox:
+				#id: potenciaMotorSelected
+				#color: 1, 1, 1, 1 #hex('#2ECC71')
+				#group: "potOrZ"
+				#size_hint_x: .15
+				#active: True
 
-			Label:
-				text: "Potencia"
+			#Label:
+				#text: "Potencia"
 
-		BoxLayout:
+		#BoxLayout:
 			#size_hint_x: 1
-			padding: 2
-			orientation: "horizontal"
+			#padding: 2
+			#orientation: "horizontal"
 			
-			TextInput:
-				id: aparenteMotorSelected
-				hint_text: "Aparente (VA)"
-				input_filter: "float"
-				write_tab: False
-				disabled: (not potenciaMotorSelected.active) or (reactivaMotorSelected.text != "" or realMotorSelected.text != "")
+			#TextInput:
+				#id: aparenteMotorSelected
+				#hint_text: "Aparente (VA)"
+				#input_filter: "float"
+				#write_tab: False
+				#disabled: (not potenciaMotorSelected.active) or (reactivaMotorSelected.text != "" or realMotorSelected.text != "")
 
-			TextInput:
-				id: reactivaMotorSelected
-				hint_text: "Reactiva (VAr)"
-				input_filter: "float"
-				write_tab: False
-				disabled: (not potenciaMotorSelected.active) or (aparenteMotorSelected.text != "" or realMotorSelected.text != "")
+			#TextInput:
+				#id: reactivaMotorSelected
+				#hint_text: "Reactiva (VAr)"
+				#input_filter: "float"
+				#write_tab: False
+				#disabled: (not potenciaMotorSelected.active) or (aparenteMotorSelected.text != "" or realMotorSelected.text != "")
 
-			TextInput:
-				id: realMotorSelected
-				hint_text: "Real (W)"
-				input_filter: "float"
-				write_tab: False
-				disabled: (not potenciaMotorSelected.active) or (aparenteMotorSelected.text != "" or reactivaMotorSelected.text != "")
+			#TextInput:
+				#id: realMotorSelected
+				#hint_text: "Real (W)"
+				#input_filter: "float"
+				#write_tab: False
+				#disabled: (not potenciaMotorSelected.active) or (aparenteMotorSelected.text != "" or reactivaMotorSelected.text != "")
 			
 		BoxLayout:
 			#size_hint_x: 1
@@ -976,11 +1011,11 @@
 				input_filter: "float"
 				write_tab: False
 				#disabled: not potenciaSelected.active
-			BoxLayout:
-				size_hint_x: .1
+			#BoxLayout:
+				#size_hint_x: .1
 			BoxLayout:
 				orientation: "horizontal"
-				size_hint_x: .45
+				size_hint_x: .5
 				CheckBox:
 					id: adelantoMotorSelected
 					
@@ -1005,18 +1040,18 @@
 				Label:
 					text: "Atraso"
 
-		BoxLayout:
-			orientation: "horizontal"
-			size_hint_x: .4
-			CheckBox:
-				id: hpSelected
-				color: 1, 1, 1, 1 #hex('#2ECC71')
-				group: "potOrZ"
-				size_hint_x: .1
-				active: False
+		#BoxLayout:
+			#orientation: "horizontal"
+			#size_hint_x: .4
+			#CheckBox:
+				#id: hpSelected
+				#color: 1, 1, 1, 1 #hex('#2ECC71')
+				#group: "potOrZ"
+				#size_hint_x: .1
+				#active: False
 
-			Label:
-				text: "Caballos de fuerza"
+			#Label:
+				#text: "Caballos de fuerza"
 				#size_hint_x: .15
 
 		BoxLayout:
@@ -1031,7 +1066,7 @@
 				hint_text: "HPs"
 				input_filter: "float"
 				write_tab: False
-				disabled: not hpSelected.active
+				#disabled: not hpSelected.active
 
 			TextInput:
 				id: eficienciaSelected
@@ -1058,12 +1093,11 @@
 				text: "Aceptar"
 				on_press:
 					root.dismiss()
-					#app.appLayout.setVoltajeAB(ABC.state, PolSelected.state, vMagnitud.text, vAngulo.text, vReal.text, vComplejo.text)
-
+					app.appLayout.addMotorMonofase(cantidadMotores.text, a1Selected.active, a2Selected.active, b1Selected.active, b2Selected.active, c1Selected.active, c2Selected.active, n1Selected.active, n2Selected.active, fpMotorSelected.text, adelantoMotorSelected, atrasoMotorSelected, hpValue.text, eficienciaSelected.text)
 
 <GetCargaMotorTrifase>
 	size_hint: None, None
-	size: 400, 300
+	size: 400, 180
 	title: "Agregar motor trifasico"
 	separator_color: hex('#740233')
 	
@@ -1073,7 +1107,7 @@
 		pos : self.parent.pos
 
 		BoxLayout:
-			#size_hint_y: .1
+			size_hint_y: .8
 			size_hint_x: .5
 
 			Label:
@@ -1086,115 +1120,122 @@
 				input_filter: "float"
 				write_tab: False
 
-		BoxLayout:
-			orientation: "horizontal"
+		#BoxLayout:
+			#orientation: "horizontal"
 			#size_hint_y: .2
-			size_hint_x: .25
-			CheckBox:
-				id: potenciaDeltaSelected
-				color: 1, 1, 1, 1 #hex('#2ECC71')
-				group: "potOrZ"
-				size_hint_x: .15
-				active: True
+			#size_hint_x: .25
+			#CheckBox:
+				#id: potenciaDeltaSelected
+				#color: 1, 1, 1, 1 #hex('#2ECC71')
+				#group: "potOrZ"
+				#size_hint_x: .15
+				#active: True
 
-			Label:
-				text: "Potencia"
+			#Label:
+				#text: "Potencia"
 
-		BoxLayout:
+		#BoxLayout:
 			#size_hint_x: 1
-			padding: 2
-			orientation: "horizontal"
+			#padding: 2
+			#orientation: "horizontal"
 			
-			TextInput:
-				id: aparenteDeltaSelected
-				hint_text: "Aparente (VA)"
-				input_filter: "float"
-				write_tab: False
-				disabled: (not potenciaDeltaSelected.active) or (reactivaDeltaSelected.text != "" or realDeltaSelected.text != "")
+			#TextInput:
+				#id: aparenteDeltaSelected
+				#hint_text: "Aparente (VA)"
+				#input_filter: "float"
+				#write_tab: False
+				#disabled: (not potenciaDeltaSelected.active) or (reactivaDeltaSelected.text != "" or realDeltaSelected.text != "")
 
-			TextInput:
-				id: reactivaDeltaSelected
-				hint_text: "Reactiva (VAr)"
-				input_filter: "float"
-				write_tab: False
-				disabled: (not potenciaDeltaSelected.active) or (aparenteDeltaSelected.text != "" or realDeltaSelected.text != "")
+			#TextInput:
+				#id: reactivaDeltaSelected
+				#hint_text: "Reactiva (VAr)"
+				#input_filter: "float"
+				#write_tab: False
+				#disabled: (not potenciaDeltaSelected.active) or (aparenteDeltaSelected.text != "" or realDeltaSelected.text != "")
 
-			TextInput:
-				id: realDeltaSelected
-				hint_text: "Real (W)"
-				input_filter: "float"
-				write_tab: False
-				disabled: (not potenciaDeltaSelected.active) or (aparenteDeltaSelected.text != "" or reactivaDeltaSelected.text != "")
+			#TextInput:
+				#id: realDeltaSelected
+				#hint_text: "Real (W)"
+				#input_filter: "float"
+				#write_tab: False
+				#disabled: (not potenciaDeltaSelected.active) or (aparenteDeltaSelected.text != "" or reactivaDeltaSelected.text != "")
 			
-		BoxLayout:
+		#BoxLayout:
 			#size_hint_x: 1
-			padding: 2
-			orientation: "horizontal"
-			BoxLayout:
-				size_hint_x: .2
-			TextInput:
-				size_hint_x: .4
-				id: fpDeltaSelected
-				hint_text: "FP (0-1)"
-				input_filter: "float"
-				write_tab: False
+			#padding: 2
+			#orientation: "horizontal"
+			#BoxLayout:
+				#size_hint_x: .2
+			#TextInput:
+				#size_hint_x: .4
+				#id: fpDeltaSelected
+				#hint_text: "FP (0-1)"
+				#input_filter: "float"
+				#write_tab: False
 				#disabled: not potenciaSelected.active
-			BoxLayout:
-				size_hint_x: .1
-			BoxLayout:
-				orientation: "horizontal"
-				size_hint_x: .45
-				CheckBox:
-					id: adelantoDeltaSelected
+			#BoxLayout:
+				#size_hint_x: .1
+			#BoxLayout:
+				#orientation: "horizontal"
+				#size_hint_x: .45
+				#CheckBox:
+					#id: adelantoDeltaSelected
 					
-					color: 1, 1, 1, 1 #hex('#2ECC71')
-					group: "atrazoOrAdelanto"
-					size_hint_x: .2
-					active: True
+					#color: 1, 1, 1, 1 #hex('#2ECC71')
+					#group: "atrazoOrAdelanto"
+					#size_hint_x: .2
+					#active: True
 
-				Label:
-					text: "Adelanto"
+				#Label:
+					#text: "Adelanto"
 
-			BoxLayout:
-				orientation: "horizontal"
-				size_hint_x: .4
-				CheckBox:
-					id: atrasoDeltaSelected
-					color: 1, 1, 1, 1 #hex('#2ECC71')
-					group: "atrazoOrAdelanto"
-					size_hint_x: .1
-					active: False
+			#BoxLayout:
+				#orientation: "horizontal"
+				#size_hint_x: .4
+				#CheckBox:
+					#id: atrasoDeltaSelected
+					#color: 1, 1, 1, 1 #hex('#2ECC71')
+					#group: "atrazoOrAdelanto"
+					#size_hint_x: .1
+					#active: False
 
-				Label:
-					text: "Atraso"
+				#Label:
+					#text: "Atraso"
 
-		BoxLayout:
-			orientation: "horizontal"
-			size_hint_x: .4
-			CheckBox:
-				id: hp3Selected
-				color: 1, 1, 1, 1 #hex('#2ECC71')
-				group: "potOrZ"
-				size_hint_x: .1
-				active: False
+		#BoxLayout:
+			#orientation: "horizontal"
+			#size_hint_x: .4
+			#CheckBox:
+				#id: hp3Selected
+				#color: 1, 1, 1, 1 #hex('#2ECC71')
+				#group: "potOrZ"
+				#size_hint_x: .1
+				#active: False
 
-			Label:
-				text: "Caballos de fuerza"
+			#Label:
+				#text: "Caballos de fuerza"
 				#size_hint_x: .15
 
 		BoxLayout:
-			#size_hint_x: 1
+			size_hint_x: .9
 			#size_hint_y: .1
 			#padding: 2
 			orientation: "horizontal"
 			BoxLayout:
 				size_hint_x: .3
 			TextInput:
+				#size_hint_x: .4
+				id: fpMotor3Selected
+				hint_text: "FP (0-1)"
+				input_filter: "float"
+				write_tab: False
+				#disabled: not potenciaSelected.active
+			TextInput:
 				id: hp3Value
 				hint_text: "HPs"
 				input_filter: "float"
 				write_tab: False
-				disabled: not hp3Selected.active
+				#disabled: not hp3Selected.active
 
 			TextInput:
 				id: eficiencia3Selected
@@ -1203,8 +1244,8 @@
 				write_tab: False
 				#disabled: not zSelected.active
 
-			BoxLayout:
-				size_hint_x: .3
+			#BoxLayout:
+				#size_hint_x: .2
 
 
 		BoxLayout:
@@ -1221,7 +1262,8 @@
 				text: "Aceptar"
 				on_press:
 					root.dismiss()
-					#app.appLayout.setVoltajeAB(ABC.state, PolSelected.state, vMagnitud.text, vAngulo.text, vReal.text, vComplejo.text)
+					app.appLayout.addCargaMotorTrifasico(cantidadMotores3.text, fpMotor3Selected.text, hp3Value.text,eficiencia3Selected.text )
+					
 
 <GetTipoMotor>
 	size_hint: None, None
@@ -1324,7 +1366,7 @@
 				text: "Regresar"
 				on_press:
 					root.dismiss()
-					
+					app.appLayout.getTipoCarga()
 
 			Button:
 				background_color: hex('#cd035a')
@@ -1553,13 +1595,14 @@
 				text: "Cancelar"
 				on_press:
 					root.dismiss()
-
 			Button:
 				background_color: hex('#cd035a') #0, 1, 0, 1 #hex('#2ECC71')
 				text: "Aceptar"
 				on_press:
 					root.dismiss()
-					#app.appLayout.setVoltajeAB(ABC.state, PolSelected.state, vMagnitud.text, vAngulo.text, vReal.text, vComplejo.text)
+					app.appLayout.addCargaDelta(pDeltaSelected.active, zDeltaSelected.active,
+					bDeltaSelected.active, dDeltaSelected.active, aparenteDeltaSelected.text, reactivaDeltaSelected.text, realDeltaSelected.text, fpDeltaSelected.text, adelantoDeltaSelected.active, atrasoDeltaSelected.active, realAB.text, complejoAB.text, realBC.text, complejoBC.text, realCA.text, complejoCA.text)
+
 
 <GetCargaEstrella>
 	size_hint: None, None
@@ -1694,7 +1737,7 @@
 					group: "neutroEstrella"
 					size_hint_x: .1
 					active: True
-					#disabled: not zEstrellaSelected.active
+					disabled: not zEstrellaSelected.active or bEstrellaSelected.active
 
 				Label:
 					text: "Si"
@@ -1706,7 +1749,7 @@
 					group: "neutroEstrella"
 					size_hint_x: .1
 					active: False
-					#disabled: not zEstrellaSelected.active
+					disabled: not zEstrellaSelected.active or bEstrellaSelected.active
 
 				Label:
 					text: "No"
@@ -1834,4 +1877,4 @@
 				text: "Aceptar"
 				on_press:
 					root.dismiss()
-					#app.appLayout.setVoltajeAB(ABC.state, PolSelected.state, vMagnitud.text, vAngulo.text, vReal.text, vComplejo.text)
+					app.appLayout.addCargaEstrella(pEstrellaSelected.active, zEstrellaSelected.active, aparenteEstrellaSelected.text, reactivaEstrellaSelected.text, realEstrellaSelected.text, fpEstrellaSelected.text, adelantoEstrellaSelected.active, atrasoEstrellaSelected.active, realAn.text, complejoAn.text, realBn.text, complejoBn.text, realCn.text, complejoCn.text, siNeutroSelected.active, noNeutroSelected.active,  bEstrellaSelected.active, dEstrellaSelected.active)
