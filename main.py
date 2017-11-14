@@ -199,7 +199,13 @@ class AppLayout(FloatLayout):
 	def addCargaMonoFase(self, cantidad, a1Selected, a2Selected, b1Selected, b2Selected, c1Selected, c2Selected, n1Selected, n2Selected, potenciaActive, zActive, pAparente, pReactiva, pReal, fp, adelantoActive, atrasoActive, zReal, zComplejo):
 		print('agregandoCargaMonoFase')
 		cargaMonofasica = CargaMonofasica(self.listaFuentes[0])
-		cantidad = float(cantidad)
+		if(cantidad != ""):
+			cantidad = float(cantidad)
+		else:
+			cantidad = 1
+
+		if(fp == ""):
+			fp = 1
 		
 		conexion = ""
 		if(a1Selected):
@@ -225,9 +231,6 @@ class AppLayout(FloatLayout):
 			elif(n2Selected):
 				conexion = "CN"
 		cargaMonofasica.setConexion(conexion)
-		#zReal = float(zReal)
-		#zComplejo = float(zComplejo)
-
 
 		if(potenciaActive == True):
 			if((pAparente != "" or pReactiva != "" or pReal != "") and fp != ""):
@@ -268,13 +271,14 @@ class AppLayout(FloatLayout):
 
 
 		elif(zActive == True):
-			if(zReal != "" or zComplejo != ""):
-				if(zREal != ""):
+			if(zReal != "" and zComplejo != ""):
+				z = complex(float(zReal), float(zComplejo))
+				cargaMonofasica.setDatosMonofase(None, None, None, None, None, cantidad, z)
+			else:
+				print('ERROR')
 
-				elif(zComplejo != ""):
-
-				else:
-					print('ERROR')
+		else:
+			print('ERROR DEBE SELECICONAR ALGUNO')
 
 
 		print(cargaMonofasica.getIL())
