@@ -146,21 +146,138 @@ class AppLayout(FloatLayout):
 		self.updateVoltajesPantalla()
 
 	def getTipoCarga(self):
-		getTipoCarga = SelectCarga()
-		getTipoCarga.open()
+		if(self.listaFuentes[0] == None):
+			print('nothing here')
+		else:
+			getTipoCarga = SelectCarga()
+			getTipoCarga.open()
 
-	def setTipoCarga(self, tipoCarga):
-		if(tipoCarga == "Trifasica"):
+	def setTipoCarga(self, trifase, monofase, motor):
+		print(trifase)
+		print(monofase)
+		print(motor)
+		
+		if(trifase == True):
 			getTipoTrifasica = GetTipoTrifasica()
 			getTipoTrifasica.open()
 		
-		elif(tipoCarga == "Monofasica"):
+		elif(monofase == True):
 			getCargaMonofase = GetCargaMonofase()
 			getCargaMonofase.open()
 		
-		elif(tipoCarga == "Motor"):
+		elif(motor == True):
 			getTipoMotor = GetTipoMotor()
 			getTipoMotor.open()
+
+		else:
+			print("selecciona alguno imbecil")
+
+	def setTipoMotor(self, monofase, trifase):
+		if(monofase == True):
+			getCargaMotorMonofase = GetCargaMotorMonofase()
+			getCargaMotorMonofase.open()
+		
+		elif(trifase == True):
+			getCargaMotorTrifase = GetCargaMotorTrifase()
+			getCargaMotorTrifase.open()
+		
+		else:
+			print("error")
+
+	def setTipoCargaTrifase(self, estrella, delta):
+		if(estrella == True):
+			getCargaEstrella = GetCargaEstrella()
+			getCargaEstrella.open()
+		
+		elif(delta == True):
+			getCargaDelta = GetCargaDelta()
+			getCargaDelta.open()
+		
+		else:
+			print('ERROR')
+
+	def addCargaMonoFase(self, cantidad, a1Selected, a2Selected, b1Selected, b2Selected, c1Selected, c2Selected, n1Selected, n2Selected, potenciaActive, zActive, pAparente, pReactiva, pReal, fp, adelantoActive, atrasoActive, zReal, zComplejo):
+		print('agregandoCargaMonoFase')
+		cargaMonofasica = CargaMonofasica(self.listaFuentes[0])
+		cantidad = float(cantidad)
+		
+		conexion = ""
+		if(a1Selected):
+			if(b2Selected):
+				conexion = "AB"
+			elif(c2Selected):
+				conexion = "CA"
+			elif(n2Selected):
+				conexion = "AN"
+		elif(b1Selected):
+			if(a2Selected):
+				conexion = "AB"
+			elif(c2Selected):
+				conexion = "BC"
+			elif(n2Selected):
+				conexion = "BN"
+
+		elif(c1Selected):
+			if(a2Selected):
+				conexion = "CA"
+			elif(b2Selected):
+				conexion = "BC"
+			elif(n2Selected):
+				conexion = "CN"
+		cargaMonofasica.setConexion(conexion)
+		#zReal = float(zReal)
+		#zComplejo = float(zComplejo)
+
+
+		if(potenciaActive == True):
+			if((pAparente != "" or pReactiva != "" or pReal != "") and fp != ""):
+				fp = float(fp)
+				if(pAparente != ""):
+					pAparente = float(pAparente)
+					if(adelantoActive):
+						cargaMonofasica.setDatosMonofase(None, None, pAparente, fp, "Adelanto", cantidad, None)
+					
+					elif(atrasoActive):
+						cargaMonofasica.setDatosMonofase(None, None, pAparente, fp, "Atraso", cantidad, None)
+					
+					else:
+						print('FUCK YOU')
+				elif(pReactiva != ""):
+					pReactiva = float(pReactiva)
+					if(adelantoActive):
+						cargaMonofasica.setDatosMonofase(None, pReactiva, None, fp, "Adelanto", cantidad, None)
+					
+					elif(atrasoActive):
+						cargaMonofasica.setDatosMonofase(None, pReactiva, None, fp, "Atraso", cantidad, None)
+					else:
+						print('FUCK YOU')
+
+				elif(pReal != ""):
+					pReal = float(pReal)
+					if(adelantoActive):
+						cargaMonofasica.setDatosMonofase(pReal, None, None, fp, "Adelanto", cantidad, None)
+					
+					elif(atrasoActive):
+						cargaMonofasica.cargaMonofasica.setDatosMonofase(pReal, None, None, fp, "Atraso", cantidad, None)
+
+					else:
+						print('FUCK YOU')
+					
+			else:
+				print('ERROR, NO DATOS')
+
+
+		elif(zActive == True):
+			if(zReal != "" or zComplejo != ""):
+				if(zREal != ""):
+
+				elif(zComplejo != ""):
+
+				else:
+					print('ERROR')
+
+
+		print(cargaMonofasica.getIL())
 
 class mainApp(App):
 	appLayout = None

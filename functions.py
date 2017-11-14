@@ -330,11 +330,17 @@ class Fuente(object):
 		return self.Vcn
 
 
+class FuenteDelta(Fuente):
+	pass
+
+class FuenteEstrella(Fuente):
+	pass
+
 #FUNCIONES PARA CARGAS MONOFASICAS(MOTORES MONOFASICOS,CARGAS RESISTIVAS)
 
 #CORRIENTES LINEA PARA CARGAS MONOFASICAS 
 
-class cargaMonofasica(object):
+class CargaMonofasica(object):
     tipo="Monofasica"
     conexion=None
     Il    = None

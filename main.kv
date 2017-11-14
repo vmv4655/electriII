@@ -451,16 +451,18 @@
 
 			Button:
 				background_color: hex('#cd035a')
+				id: buttonCancelarTipoCarga
 				text: "Cancelar"
 				on_press:
 					root.dismiss()
 
 			Button:
 				background_color: hex('#cd035a')
+				id: buttonAceptarTipoCarga
 				text: "Aceptar"
 				on_press:
 					root.dismiss()
-					app.appLayout.setTipoCarga(tipoCarga.active)
+					app.appLayout.setTipoCarga(trifasicaSelected.active, monofaseSelected.active, motorSelected.active)
 					
 <GetCargaMonofase>
 	size_hint: None, None
@@ -753,7 +755,10 @@
 				text: "Aceptar"
 				on_press:
 					root.dismiss()
-					#app.appLayout.setVoltajeAB(ABC.state, PolSelected.state, vMagnitud.text, vAngulo.text, vReal.text, vComplejo.text)
+					app.appLayout.addCargaMonoFase(cantidadCargas.text, a1Selected.active, a2Selected.active, b1Selected.active, b2Selected.active, c1Selected.active, c2Selected.active,
+					n1Selected.active, n2Selected.active,
+					potenciaSelected.active, zSelected.active,
+					aparenteSelected.text, reactivaSelected.text, realSelected.text, fpSelected.text, adelantoSelected.active, atrasoSelected.active, realzSelected.text, complejoSelected.text)	
 
 <GetCargaMotorMonofase>
 	size_hint: None, None
@@ -1048,7 +1053,6 @@
 				text: "Cancelar"
 				on_press:
 					root.dismiss()
-
 			Button:
 				background_color: hex('#cd035a') #0, 1, 0, 1 #hex('#2ECC71')
 				text: "Aceptar"
@@ -1212,7 +1216,6 @@
 				text: "Cancelar"
 				on_press:
 					root.dismiss()
-
 			Button:
 				background_color: hex('#cd035a') #0, 1, 0, 1 #hex('#2ECC71')
 				text: "Aceptar"
@@ -1266,13 +1269,14 @@
 				text: "Regresar"
 				on_press:
 					root.dismiss()
+					app.appLayout.getTipoCarga()
 
 			Button:
 				background_color: hex('#cd035a')
 				text: "Aceptar"
 				on_press:
 					root.dismiss()
-					#app.appLayout.setVoltajeAB(ABC.state, PolSelected.state, vMagnitud.text, vAngulo.text, vReal.text, vComplejo.text)
+					app.appLayout.setTipoMotor(monofasicoSelected.active, trifasicoSelected.active)
 
 <GetTipoTrifasica>
 	size_hint: None, None
@@ -1320,13 +1324,15 @@
 				text: "Regresar"
 				on_press:
 					root.dismiss()
+					
 
 			Button:
 				background_color: hex('#cd035a')
 				text: "Aceptar"
 				on_press:
 					root.dismiss()
-					#app.appLayout.setVoltajeAB(ABC.state, PolSelected.state, vMagnitud.text, vAngulo.text, vReal.text, vComplejo.text)
+					#app.appLayout.GetTipoTrifasica()
+					app.appLayout.setTipoCargaTrifase(estrellaSelected.active, deltaSelected.active)
 
 <GetCargaDelta>
 	size_hint: None, None
